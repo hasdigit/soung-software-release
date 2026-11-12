@@ -1,0 +1,5 @@
+aucune
+# Sur la première ligne : le numéro de la version que soung propose, par exemple 4.0.2
+# « aucune » : aucune mise à jour n'est proposée.
+# Publier une version ne la propose à personne : elle est proposée seulement quand son
+# numéro est écrit ici.
