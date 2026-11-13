@@ -1,0 +1,1186 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Le guide de soung 4.0.1</title>
+<meta name="description" content="Le guide de soung : lire un texte à voix haute, dicter, traduire, talk team et ses carnets de notes, pas à pas et en images.">
+<link rel="icon" href="images/logo-soung.png">
+<style>
+  :root {
+    --ink: #1c2433; --soft: #5a6577; --line: #e3e8ef; --paper: #ffffff; --page: #f5f7fa;
+    --accent: #ff8a3d; --green: #0f7259; --green-bg: #e6f6f1; --blue-bg: #eaf2fd;
+    --warn-bg: #fff4e8;
+  }
+  * { box-sizing: border-box; }
+  html { scroll-padding-top: 16px; }
+  body { margin: 0; background: var(--page); color: var(--ink);
+         font: 18px/1.6 "Segoe UI", system-ui, sans-serif; }
+  a { color: var(--green); }
+  .layout { display: flex; align-items: flex-start; max-width: 1220px; margin: 0 auto; }
+  aside { position: sticky; top: 0; flex: none; width: 310px; height: 100vh; overflow-y: auto;
+          padding: 24px 18px; border-right: 1px solid var(--line); background: var(--paper); }
+  main { flex: 1; min-width: 0; max-width: 880px; padding: 32px 28px 64px; }
+  .logos { display: flex; align-items: center; gap: 10px; margin-bottom: 6px; }
+  .logos img.soung { width: 44px; height: 44px; border-radius: 10px; }
+  .logos .name { font-size: 26px; font-weight: 700; letter-spacing: .01em; }
+  .publisher { display: flex; align-items: center; gap: 8px; color: var(--soft); font-size: 13px;
+               margin-bottom: 18px; }
+  .publisher img { height: 22px; width: auto; }
+  aside nav strong { display: block; font-size: 13px; letter-spacing: .06em; color: var(--soft);
+                     text-transform: uppercase; margin-bottom: 6px; }
+  aside nav ol { list-style: none; padding: 0; margin: 0; }
+  aside nav a { display: block; padding: 7px 10px; border-radius: 8px; text-decoration: none;
+                color: var(--ink); font-size: 15px; line-height: 1.35; }
+  aside nav a:hover { background: #f0f3f7; }
+  aside nav a.part-link { font-weight: 650; font-size: 16px; margin-top: 4px; }
+  aside nav ol.chapters { display: none; margin: 0 0 6px 10px; padding-left: 8px;
+                          border-left: 2px solid var(--line); }
+  aside nav li.open > ol.chapters { display: block; }
+  aside nav li.open > a.part-link { color: var(--green); }
+  aside nav a.current { background: var(--green-bg); color: var(--green); font-weight: 650; }
+  header.top { margin-bottom: 8px; }
+  header.top .hero { display: flex; align-items: center; justify-content: space-between;
+                     gap: 16px; flex-wrap: wrap; }
+  header.top img.hasdigit { height: 34px; width: auto; }
+  header.top .brand { color: var(--green); font-weight: 700; letter-spacing: .04em;
+                      font-size: 15px; }
+  header.top .title { font-size: 38px; line-height: 1.2; font-weight: 700; margin: 8px 0 6px; }
+  header.top p { color: var(--soft); margin: 0; }
+  .version { display: inline-block; background: var(--green-bg); color: var(--green);
+             border-radius: 999px; padding: 1px 12px; font-weight: 650; font-size: 15px; }
+  section.part { margin-top: 40px; padding-top: 8px; border-top: 3px solid var(--green); }
+  h1 { font-size: 32px; line-height: 1.2; margin: 18px 0 8px; }
+  h2 { font-size: 26px; margin: 44px 0 12px; padding-top: 8px; border-top: 1px solid var(--line); }
+  h3 { font-size: 21px; margin: 26px 0 8px; }
+  p.lead { color: var(--soft); margin-top: 0; }
+  li { margin: 6px 0; }
+  code { font-family: Consolas, monospace; background: #eef1f5; border-radius: 6px;
+         padding: 1px 6px; font-size: 16px; }
+  .step { background: var(--paper); border: 1px solid var(--line); border-radius: 16px;
+          padding: 20px 24px; margin: 22px 0; box-shadow: 0 1px 2px rgba(0,0,0,.04); }
+  .step h3 { margin-top: 0; display: flex; align-items: center; gap: 12px; }
+  .num { display: inline-flex; align-items: center; justify-content: center; flex: none;
+         width: 38px; height: 38px; border-radius: 50%; background: var(--accent);
+         color: #fff; font-weight: 700; font-size: 18px; }
+  .marks { list-style: none; padding: 0; margin: 12px 0; }
+  .marks li { position: relative; padding-left: 38px; margin: 10px 0; }
+  .dot { display: inline-flex; align-items: center; justify-content: center;
+         width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: #fff;
+         font-weight: 700; font-size: 14px; }
+  .marks .dot { position: absolute; left: 0; top: 1px; }
+  figure { margin: 16px 0 10px; text-align: center; }
+  figure img { max-width: 100%; height: auto; border-radius: 12px;
+               border: 1px solid var(--line); }
+  figcaption { color: var(--soft); font-size: 15px; margin-top: 6px; }
+  .box { border-radius: 12px; padding: 14px 18px; margin: 16px 0; }
+  .box.tip { background: var(--green-bg); }
+  .box.info { background: var(--blue-bg); }
+  .box.warn { background: var(--warn-bg); }
+  .box strong:first-child { display: block; margin-bottom: 2px; }
+  .site { font-family: Consolas, monospace; background: #eef1f5; border-radius: 6px;
+          padding: 1px 7px; font-size: 16px; white-space: nowrap; }
+  .btn { display: inline-block; border: 1px solid #b9c3d1; border-radius: 7px; background: #fff;
+         padding: 0 8px; font-size: 16px; font-weight: 600; white-space: nowrap; }
+  table { width: 100%; border-collapse: collapse; background: var(--paper); border-radius: 12px;
+          overflow: hidden; border: 1px solid var(--line); margin: 14px 0; }
+  th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid var(--line);
+           vertical-align: top; }
+  th { background: #f0f3f7; }
+  tr:last-child td { border-bottom: 0; }
+  .faq dt { font-weight: 700; margin-top: 16px; }
+  .faq dd { margin: 4px 0 0; }
+  footer { text-align: center; color: var(--soft); font-size: 15px; margin-top: 48px; }
+  @media (max-width: 900px) {
+    .layout { display: block; }
+    aside { position: static; width: auto; height: auto; border-right: 0;
+            border-bottom: 1px solid var(--line); }
+    aside nav li > ol.chapters, aside nav li.open > ol.chapters { display: none; }
+    main { padding: 20px 16px 48px; }
+    /* A wide table scrolls on its own: the page never scrolls sideways. */
+    main table { display: block; overflow-x: auto; }
+  }
+  @media print {
+    aside { display: none; }
+    body { background: #fff; font-size: 14px; }
+    .step { break-inside: avoid; box-shadow: none; }
+    section.part { break-before: page; }
+    figure { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<div class="layout">
+<aside>
+  <div class="logos">
+    <img class="soung" src="images/logo-soung.png" alt="Logo de soung">
+    <span class="name">soung</span>
+  </div>
+  <div class="publisher">Propulsé par <img src="images/logo-hasdigit.png" alt="HasDigit"></div>
+  <nav aria-label="Sommaire du guide">
+    <strong>Sommaire</strong>
+    <ol id="sommaire"></ol>
+  </nav>
+</aside>
+<main>
+
+<header class="top">
+  <div class="hero">
+    <div>
+      <div class="brand">soung · Propulsé par HasDigit</div>
+      <div class="title">Le guide de soung</div>
+    </div>
+    <img class="hasdigit" src="images/logo-hasdigit.png" alt="HasDigit">
+  </div>
+  <p><span class="version">Version 4.0.1</span> Tout ce que soung sait faire, pas à pas
+  et en images.</p>
+</header>
+<noscript><div class="box warn"><strong>Ce guide ne peut pas s’afficher.</strong> Votre
+navigateur bloque les scripts de cette page. Autorisez-les pour cette page, puis rechargez-la :
+le guide ne charge rien d’ailleurs et n’envoie rien.</div></noscript>
+
+<section class="part" id="utiliser" data-title="Utiliser soung">
+<script type="text/markdown">
+# Bienvenue dans soung
+
+Propulsé par HasDigit. Ce guide correspond à soung 4.0.1.
+
+soung vous lit les textes à voix haute, écrit ce que vous dictez, traduit dans les deux sens et,
+avec talk team, traduit votre voix en direct dans vos programmes. Pendant talk team, soung peut
+aussi prendre des notes et vous faire un rapport.
+
+## Installation
+
+Pour Windows 10 (version 1809 ou suivante) et Windows 11, en 64 bits. Ouvrez
+soung-4.0.1-Setup.exe par un double-clic et suivez les écrans. Si soung est déjà ouvert, le
+programme d'installation ferme tout seul le soung de votre compte, puis remplace l'ancienne
+version. Le mode local est inclus : vous pouvez lire et dicter sans Internet et sans compte.
+Si vous faites une mise à jour, vos réglages sont conservés. Le détail (avertissement de
+Windows, ce qui est gardé, désinstallation) est dans le guide d'installation de la
+documentation.
+
+## Pas à pas : les situations courantes
+
+Chaque situation se fait dans l'ordre indiqué. Le détail de chaque fonction est plus bas dans ce
+guide.
+
+### Ma première réunion traduite avec talk team
+
+1. Branchez votre casque. Ouvrez Paramètres → talk team : l'état de préparation doit dire que
+   tout est prêt. Sinon, cliquez sur le bouton de la ligne qui pose problème.
+
+   ![Paramètres, page talk team : l'état de préparation dit que tout est prêt](images/talk-team-preparation.png)
+2. Choisissez votre langue et celle des personnes qui vous parlent.
+3. Dans votre programme de réunion, choisissez le micro « Micro-Soung-Team ».
+4. Cliquez sur « Démarrer talk team » dans la console, ou appuyez sur Ctrl + Alt + M.
+5. Si la prise de notes est active et que vous avez démarré par le bouton, soung demande
+   « Où ranger ces notes ? ».
+   - La toute première fois, appuyez sur Entrée : soung propose un nom de carnet et un nom
+     de séance. Appuyez encore sur Entrée (« Démarrer »).
+   - Ensuite, le premier choix, celui d'Entrée, est « Continuer » suivi du nom de votre dernière
+     séance. Pour la suite de ce travail, appuyez sur Entrée. Pour une nouvelle réunion,
+     choisissez « Nouveau carnet de notes », ou « Choisir un carnet existant » puis
+     « + Nouvelle séance ».
+
+   Si vous avez démarré par Ctrl + Alt + M, soung range tout seul et vous le dit, avec
+   « Changer ».
+
+   ![La fenêtre « Où ranger ces notes ? » et ses choix](images/talk-team-ou-ranger.png)
+6. Le panneau s'ouvre sur le côté. Parlez normalement : les autres entendent votre voix
+   traduite, et vous entendez leur voix traduite.
+
+   ![Le panneau talk team, avec un interrupteur « Traduire » pour votre voix et un pour ce que vous entendez](images/talk-team-panneau.png)
+7. À la fin, cliquez sur « Arrêter talk team ». Votre micro et vos volumes reviennent comme
+   avant.
+
+### Parler ou écouter sans traduction, un moment
+
+- Pour que les autres entendent votre vraie voix : dans le panneau, éteignez « Traduire » sur
+  la ligne « Vous êtes traduit en … ». Rallumez-le pour reprendre la traduction.
+- Pour entendre les autres tels quels : éteignez « Traduire » sur la ligne « Les autres sont
+  traduits en … ».
+- Pour une seule phrase : maintenez Ctrl + Alt + B pendant que vous parlez.
+
+Un sens au moins reste traduit. Pour tout arrêter, utilisez « Arrêter talk team ».
+
+### Noter pendant la réunion
+
+1. Un moment important : appuyez sur Ctrl + Alt + N. « Moment gardé » s'affiche, sans quitter
+   votre programme.
+2. Une remarque : cliquez sur « Ajouter une remarque », tapez-la ou cliquez sur « Dicter »,
+   puis choisissez décision, action ou question. Pendant la dictée, les autres ne vous
+   entendent pas.
+
+   ![L'ajout d'une remarque pendant la réunion, avec le choix décision, action ou question](images/carnets-ajouter-remarque.png)
+3. Pour une partie à ne pas garder : cliquez sur « Pause », puis sur « Reprendre ».
+
+### Après la réunion : relire, faire le rapport et le résumé
+
+1. Ouvrez « Mes carnets de notes » : le bouton de la console, le « Menu », ou le menu de
+   l'icône près de l'horloge.
+
+   ![La console de soung, avec « Menu », « Mes carnets de notes » et la ligne des raccourcis](images/console.png)
+2. À gauche, choisissez la note de votre réunion. Pour un rapport sur plusieurs réunions,
+   choisissez la séance ou le carnet.
+3. Onglet « Ce qui a été dit » : relisez « Moi » et « Les autres », avec les heures.
+4. Onglet « Rapport », puis « Faire le rapport » : le rapport simple s'affiche tout de suite,
+   même sans Internet.
+5. Avec Internet, cliquez sur « Améliorer le rapport » pour un rapport mieux rédigé. S'il n'y
+   arrive pas, votre rapport reste là, avec la raison et « Réessayer ».
+
+   ![Mes carnets de notes : à gauche le carnet, ses séances et ses notes, à droite le rapport](images/carnets-trois-niveaux.png)
+6. Onglet « Résumé », puis « Faire le résumé ».
+7. Cliquez sur une heure pour revoir ce qui a été dit à ce moment. « Modifier » pour corriger
+   une phrase, puis « Enregistrer ».
+
+   ![L'onglet « Résumé » d'une note, avec les heures en bleu](images/carnets-resume.png)
+
+### Envoyer le rapport par e-mail
+
+1. Affichez le rapport, le résumé ou « Ce qui a été dit » : c'est ce document qui sera joint.
+2. Cliquez sur « Préparer un e-mail ». Un panneau s'ouvre dans soung.
+3. Relisez le message. Choisissez le format de la pièce jointe : Word, ou PDF.
+4. Cliquez sur « Valider et copier ». Le document est enregistré dans vos Téléchargements, et
+   le message est copié.
+
+   ![Le panneau « Préparer un e-mail », avec le choix Word ou PDF et le bouton « Valider et copier »](images/carnets-e-mail.png)
+5. Dans votre messagerie, collez le message (Ctrl + V) et joignez le document. « Ouvrir le
+   dossier » montre où il est.
+6. Pour le retrouver plus tard, cliquez sur « Archiver » : il sera dans « E-mails archivés ».
+
+### Ranger et nettoyer ses carnets
+
+- Renommer, déplacer une note ou une séance, réunir deux séances ou deux carnets : choisissez
+  l'élément à gauche, puis l'action.
+- Effacer : choisissez l'élément, puis « Effacer », et confirmez. Vous avez ensuite
+  5 secondes pour cliquer sur « Annuler ». Une note en cours ne s'efface pas : arrêtez d'abord talk team.
+- Exporter : « Exporter », puis le format (PDF, Word, page web, texte, Markdown). Le fichier
+  exporté n'est plus protégé par soung.
+
+### Brancher un casque ou un micro en cours de route
+
+1. Branchez l'appareil, soung ouvert : il apparaît dans les listes de Paramètres, sans
+   redémarrer soung.
+2. Choisissez-le (par exemple dans Paramètres → Dictée, « Micro utilisé »), puis « Tester le
+   micro ».
+3. Si vous le débranchez, soung le dit et prend celui de Windows. Rebranchez-le : soung le
+   reprend.
+
+   ![Paramètres, Dictée : le casque qui vient d'être branché apparaît dans « Micro utilisé »](images/appareil-branche.png)
+
+### Savoir ce qu'une réunion a coûté
+
+1. Ouvrez Paramètres → Consommation, période « Aujourd'hui ».
+2. Lisez la ligne « Interprétation en direct » dans « Par activité, tous services confondus » :
+   jetons, secondes d'audio et coût estimé. Les rapports, résumés et e-mails des carnets ont
+   chacun leur ligne.
+
+   ![Paramètres, Consommation : le total, puis le tableau par activité avec les secondes d'audio](images/consommation.png)
+3. Pour vérifier les prix, cliquez sur « Afficher et modifier les tarifs ».
+
+   ![Les tarifs, avec la colonne « Prix par seconde d'audio »](images/consommation-tarifs.png)
+
+### Installer une nouvelle version
+
+- Avec le programme d'installation : double-cliquez dessus, même si soung est ouvert. Il le
+  ferme tout seul, remplace l'ancienne version et garde vos réglages et vos carnets.
+- Avec la mise à jour d'un clic : quand la console affiche « Mettre à jour », cliquez dessus.
+  Terminez d'abord talk team, une dictée ou une lecture en cours. soung se rouvre tout seul.
+
+  ![La ligne « soung est disponible » de la console, avec le bouton « Mettre à jour »](images/mise-a-jour.png)
+
+### Le lancement de soung avec Windows
+
+soung se lance quand Windows démarre : cela fait partie des conditions d'utilisation, et une
+mise à jour le remet en marche. Si vous ne le voulez vraiment pas, Windows le permet :
+Gestionnaire des tâches, onglet « Applications de démarrage » (« Démarrage » sous Windows 10),
+puis désactivez soung.
+
+## Les raccourcis
+
+| Geste | Raccourci |
+| --- | --- |
+| Écouter le texte sélectionné | Ctrl + Alt + R |
+| Écouter le texte sélectionné, traduit | Ctrl + Alt + T |
+| Dicter (maintenir, parler, relâcher) | Ctrl + Espace |
+| Dicter en traduisant (maintenir, parler, relâcher) | Ctrl + Alt + D |
+| Démarrer ou arrêter talk team | Ctrl + Alt + M |
+| Parler sans traduire pendant talk team (maintenir) | Ctrl + Alt + B |
+| Marquer un moment pendant talk team | Ctrl + Alt + N |
+| Retrouver la console | Ctrl + Alt + V |
+
+Chaque raccourci se change dans Paramètres → Raccourcis.
+
+Dans la console, sous le bouton de talk team, une ligne rappelle les quatre raccourcis les plus
+utiles, tels qu'ils sont réglés chez vous : démarrer talk team (Ctrl + Alt + M) en premier, puis
+lire, lire en traduisant et écrire en traduisant.
+
+## Les Paramètres
+
+Les Paramètres s'ouvrent depuis la console ou le menu de l'icône. Une colonne à gauche range
+les réglages en 4 catégories :
+
+- Parler et écouter : Langues, Dictée, Lecture, talk team ;
+- Utiliser soung : Général, Raccourcis ;
+- Services et coûts : Services en ligne, Consommation ;
+- Aide : À propos (la version, l'éditeur et les logiciels libres utilisés).
+
+Tapez un mot dans « Chercher un réglage » pour aller tout de suite au bon endroit. Tout se fait
+aussi au clavier (Tab, flèches, Entrée, Échap) et avec le Narrateur de Windows.
+
+## Écouter un texte
+
+Sélectionnez un texte dans votre application, puis appuyez sur Ctrl + Alt + R.
+Le texte doit pouvoir être copié dans l'application utilisée.
+La lecture commence. Le panneau permet de faire pause, changer la voix ou la vitesse,
+et revenir au passage précédent.
+
+## Lecture locale ou en ligne
+
+Dans Paramètres → Lecture, choisissez :
+
+- Lecture locale : les voix de Windows, sans Internet. Les symboles courants sont bien lus.
+- Lecture en ligne : une voix naturelle, et les formules, symboles et abréviations lus selon
+  leur contexte. Le texte que vous faites lire est envoyé au service choisi.
+
+La clé se met une seule fois, dans Paramètres → Services en ligne. Un badge dans la console indique
+toujours le mode de lecture ; cliquez dessus pour le changer.
+
+## Écrire avec votre voix
+
+Cliquez là où vous voulez écrire. Maintenez Ctrl + Espace, parlez, puis relâchez.
+Votre texte s'insère après la transcription.
+Pendant que vous parlez, les barres du panneau de dictée bougent avec votre voix.
+Si elles restent immobiles, votre micro ne reçoit pas de son.
+Si une ancienne application de dictée est ouverte, quittez-la puis relancez soung.
+
+## Les services en ligne et leurs clés
+
+Les modes en ligne demandent une clé du service (OpenAI ou Claude) ; talk team demande une
+clé OpenAI. Dans
+Paramètres → Services en ligne, cliquez sur « Créer ma clé » : la bonne page du service s'ouvre.
+Copiez la clé, collez-la, cliquez sur « Tester la clé », puis sur « Enregistrer ». Le guide
+illustré GUIDE-EN-LIGNE.html, à côté du programme d'installation, montre chaque étape en images.
+
+## Dicter en ligne, avec correction
+
+Dans Paramètres → Dictée, choisissez un mode en ligne. La clé se met une seule fois, dans
+Paramètres → Services en ligne. Votre dictée est alors corrigée automatiquement : orthographe,
+grammaire, hésitations et reprises, sans rien ajouter à vos propos.
+Un badge dans la console indique toujours si vous dictez en local ou en ligne.
+
+## Traduire
+
+Dans Paramètres → Langues, choisissez :
+
+- Je parle : la langue de votre voix quand vous dictez ;
+- J'écoute : la langue dans laquelle soung vous lit un texte traduit ;
+- J'écris en : la langue du texte écrit quand vous dictez en traduisant.
+
+Ensuite :
+
+- pour lire en traduisant, sélectionnez un texte puis appuyez sur Ctrl + Alt + T ;
+- pour dicter en traduisant, maintenez Ctrl + Alt + D, parlez, puis relâchez.
+
+La pastille « Langues » de la console montre vos choix ; cliquez dessus pour les changer.
+Si une traduction échoue, votre dictée est gardée : cliquez sur « Réessayer », ou sur
+« Insérer sans traduire ».
+
+## Traduire sans Internet
+
+Dans Paramètres → Langues → Traduction sans Internet, téléchargez une fois le paquet de chaque
+sens : « Anglais vers français » et « Français vers anglais » (environ 67 Mo chacun). Ensuite, la
+lecture et la dictée traduites fonctionnent sans Internet, dans les deux sens, et rien ne quitte
+votre ordinateur. La qualité est un peu moins bonne qu'en ligne.
+
+Le détail de ce qui fonctionne avec ou sans Internet est dans POSSIBILITES.txt, à côté du
+programme d'installation.
+
+## talk team : votre voix traduite en direct
+
+talk team traduit votre voix vers n'importe quel programme qui utilise un micro, et le son de
+vos programmes vers vous. Il demande Internet et une clé OpenAI.
+
+### Préparer
+
+1. Ouvrez Paramètres → talk team. L'état de préparation dit en quatre lignes si tout est prêt ;
+   chaque problème a son bouton pour le régler.
+2. Choisissez vos langues et vos appareils ; chaque appareil a son bouton d'essai.
+3. Dans votre programme, choisissez le micro « Micro-Soung-Team ».
+
+Un casque est conseillé. Sans casque, soung empêche toute boucle : votre programme n'entend pas
+la traduction en écho. En contrepartie, une réponse dite juste après un écho peut perdre son
+début. Avec un casque, cela n'arrive pas. La case « Demander le texte de ce que je dis », dans
+Paramètres → talk team, renforce cette protection ; la laisser cochée est conseillé sans casque.
+
+### Démarrer et arrêter
+
+Un seul geste démarre ou arrête talk team : le bouton « Démarrer talk team » de la console, le
+menu de l'icône, ou Ctrl + Alt + M. Les conditions d'utilisation vous sont
+présentées à l'installation, où vous donnez votre accord. Avant de démarrer, soung vérifie tout ;
+le démarrage prend 3 secondes au plus.
+
+À l'arrêt, votre micro par défaut, le micro de chacun de vos programmes et le volume reviennent
+comme avant, même après un arrêt brutal.
+
+### Le panneau de suivi
+
+Pendant que talk team tourne, un panneau s'ouvre sur le côté : vos deux sens écrits en mots,
+quatre ondes qui bougent avec les voix, les sous-titres (« Vous » à droite, « Eux » à gauche) et
+les commandes. Cliquer sur le panneau ne prend pas le clavier de votre programme.
+
+Chacun des deux sens a, en haut à droite de sa ligne, un petit interrupteur « Traduire » :
+
+- sur la ligne « Votre voix », éteint : les autres entendent votre vraie voix, et la ligne dit
+  « On vous entend sans traduction ». Votre vraie voix passe toujours par le micro de soung : le
+  programme réglé sur « Micro-Soung-Team » vous entend, et rien n'est compté chez le service ;
+- sur la ligne « Ce que vous entendez », éteint : vous entendez les autres tels quels, au volume
+  d'avant, et la ligne dit « Vous entendez le son d'origine ».
+
+Les deux interrupteurs sont indépendants, et votre choix est gardé pour la fois suivante. Un sens
+au moins reste traduit : pour tout arrêter, utilisez « Arrêter talk team ».
+
+Les commandes :
+
+- « Couper mon micro », puis « Rétablir mon micro » ;
+- « Parler sans traduire » (maintenir, ou Ctrl + Alt + B) : les autres entendent votre vraie
+  voix, tout de suite ;
+- changer la langue des personnes qui vous parlent ;
+- « Mettre l'écoute en pause », puis reprendre ;
+- régler le volume de la voix d'origine.
+
+La fenêtre de soung et le panneau de talk team ne dépassent jamais l'écran. Vous pouvez les
+réduire autant que vous voulez en tirant leur bord : le texte rétrécit un peu, sans devenir
+illisible, puis la fenêtre défile. En l'agrandissant, le texte revient à sa taille.
+
+### Si le service flanche
+
+Si Internet ou le service s'arrête, on vous entend sans traduction en moins de 2 secondes, avec
+un seul message et son bouton. Au retour du service, la traduction reprend seule et soung dit
+« Traduction rétablie. ». Si le crédit du service est épuisé ou la clé refusée, ajoutez du
+crédit ou corrigez la clé, puis cliquez sur « Réessayer » : la traduction reprend sans arrêter
+talk team.
+
+## Les carnets de notes de talk team
+
+Pendant talk team, soung garde ce qui est dit, les moments que vous marquez et vos remarques.
+Tout reste sur cet ordinateur, chiffré pour votre session Windows. Aucun son n'est gardé.
+Vous pouvez couper la prise de notes dans Paramètres → talk team → Notes.
+
+Les mots : il y a trois niveaux, le carnet, la séance et la note. Un carnet (un travail ou un
+sujet) contient des séances, et une séance contient des notes. Une note, c'est ce qui est
+gardé entre un démarrage et un arrêt de talk team. Dans « Mes carnets de notes », chaque niveau
+a son dessin et sa couleur, et chaque ligne dit ce qu'elle contient (« 3 séances », « 2 notes »,
+« Vide ») : vous les reconnaissez sans les ouvrir.
+
+### Où ranger ces notes ?
+
+Quand vous démarrez par le bouton, soung demande « Où ranger ces notes ? » : un carnet existant
+ou « Nouveau carnet de notes ». Quand vous démarrez par Ctrl + Alt + M, soung range tout seul et
+vous le dit, avec « Changer ».
+
+### Pendant talk team
+
+- « Prise de notes en cours » reste affiché dans le panneau, avec « Pause » et « Reprendre ».
+  Rien de ce qui est dit pendant une pause n'est noté.
+- Ctrl + Alt + N (ou le bouton) marque un moment, sans quitter votre programme.
+- « Ajouter une remarque » : écrivez-la, ou cliquez sur « Dicter » (votre micro est alors coupé
+  pour les autres), puis choisissez son type : décision, action ou question.
+- La liste « Notes », repliée par défaut, montre vos moments et remarques dans l'ordre. Vous
+  pouvez les filtrer par type, changer le type d'une ligne, ou l'effacer avec « Annuler ».
+
+### Le rapport et le résumé
+
+Choisissez à gauche une note, une séance ou un carnet entier : le rapport prend tout ce qu'il
+contient. Trois onglets : « Ce qui a été dit », « Rapport » et « Résumé ».
+
+- « Faire le rapport » donne tout de suite un rapport simple, fait par soung seul, même sans
+  Internet : points clés, demandes, décisions, actions (quoi, qui, quand), questions ouvertes
+  et remarques, chacun avec ses heures.
+- « Améliorer le rapport » le fait réécrire par l'intelligence artificielle, quand Internet
+  répond. Si le service n'y arrive pas, votre rapport reste tel qu'il était, et une phrase dit
+  pourquoi, avec « Réessayer ». Si une seule phrase du rapport amélioré semble douteuse, elle
+  est retirée et le rapport le dit en tête. Si le rapport doit coûter plus de 0,20 $, soung
+  vous le dit avant l'envoi.
+- L'onglet « Résumé », avec « Faire le résumé », donne un résumé à part.
+
+Les heures s'affichent sans les secondes, dans un bleu calme qui se lit bien sur le blanc.
+Cliquez sur une heure pour voir ce qui a été dit à ce moment. Vous pouvez « Modifier » le
+rapport, le « Traduire » dans une autre langue, puis « Revenir au rapport d'origine ».
+
+### Préparer un e-mail
+
+« Préparer un e-mail » ouvre un panneau dans soung, sans navigateur ni programme de messagerie.
+Vous y voyez et changez le message, la pièce jointe et son format (Word est proposé d'abord,
+PDF aussi), et le dossier où l'enregistrer (Téléchargements d'abord). Sans Internet, soung
+écrit lui-même un message court.
+
+- « Valider et copier » enregistre le document dans le dossier choisi et copie le message :
+  collez-le dans votre courrier et joignez le document. Le panneau dit où est le document, avec
+  « Ouvrir le dossier ».
+- « Archiver » garde l'e-mail validé avec son document : vous le retrouvez dans « E-mails
+  archivés ». Il est effacé avec son carnet.
+
+### Mes carnets de notes
+
+« Mes carnets de notes » s'ouvre depuis le bouton du même nom dans la console, le « Menu » de
+la console, le menu de l'icône ou le panneau de talk team. Vous
+pouvez y chercher, relire « Ce qui a été dit », le « Rapport » et le « Résumé », exporter (PDF,
+Word, page web, texte, texte mis en forme Markdown), copier, préparer un e-mail, renommer,
+déplacer, réunir, et effacer avec « Annuler » pendant 5 secondes. Le nom de fichier proposé à
+l'export est toujours accepté par Windows. Après l'export, soung dit « Fichier enregistré » avec son nom, et rappelle qu'un fichier
+enregistré n'est plus protégé par soung.
+
+« Lire à voix haute » lit seulement le dialogue (« Moi », « Les autres » et ce qui a été dit),
+ou les points d'un rapport : ni titre, ni date, ni heure.
+
+Par défaut, vos notes sont gardées jusqu'à ce que vous les effaciez. Dans Paramètres → talk team
+→ Notes → « Garder mes notes », vous pouvez choisir 7, 30, 90 ou 365 jours ; ce choix s'applique
+au prochain lancement de soung. À la désinstallation, soung propose d'effacer vos carnets ; il
+ne le fait jamais sans vous.
+
+## Votre vocabulaire
+
+Dans Paramètres → Dictée → Vocabulaire personnel, écrivez les noms propres et les termes de
+votre métier, un par ligne. La dictée les écrira toujours exactement ainsi.
+
+## Voix de chaque langue
+
+soung lit chaque texte avec une voix de sa langue : un texte anglais avec une voix anglaise, un
+texte traduit avec une voix de la langue que vous écoutez. Dans Paramètres → Lecture → Voix de
+Windows par langue, choisissez la voix de chaque langue. Si une langue manque, ajoutez sa voix
+dans les paramètres de Windows (Heure et langue → Voix).
+
+## Micro et haut-parleur
+
+Dans Paramètres → Dictée, choisissez votre micro dans « Micro utilisé » et testez-le avec
+« Tester le micro ». Dans Paramètres → Lecture, choisissez le haut-parleur de lecture.
+Par défaut, soung utilise les choix de Windows. Les appareils de talk team se choisissent dans
+Paramètres → talk team.
+
+Un micro, un casque ou un haut-parleur que vous branchez pendant que soung est ouvert apparaît
+tout de suite dans les listes, sans redémarrer soung. Si l'appareil choisi est débranché, une
+phrase le dit et soung utilise celui de Windows ; quand vous le rebranchez, soung le reprend et
+le dit. Si un message dit qu'un périphérique du son vient d'être branché et que soung ne l'a pas
+encore pris, arrêtez d'abord la lecture en cours et talk team, puis cliquez sur « Réessayer ».
+
+## Suivre votre consommation
+
+Paramètres → Consommation montre ce que les services en ligne ont consommé et un coût estimé,
+par jour, par semaine ou par mois. Seules des quantités sont gardées, jamais vos textes.
+
+- En haut, le total : jetons entrants, jetons sortants, jetons en tout, et le coût estimé.
+- « Par activité, tous services confondus » : une ligne par activité, par exemple
+  « Interprétation en direct » pour talk team, et pour les carnets « Rapport des notes »,
+  « Préparation des notes », « Résumé des notes », « Préparation d'e-mail » et « Traduction du
+  rapport ».
+- « Détail par service » : la même chose, service par service.
+- Pour l'interprétation en direct et la voix en ligne, le service ne donne pas ses jetons :
+  soung les estime d'après la longueur des textes et la durée du son, et une phrase dit pour
+  combien de demandes. Il fait de même pour tout service qui ne les donne pas.
+
+« Afficher et modifier les tarifs » montre les prix utilisés pour le coût. Le prix du son se
+règle à la seconde, dans la colonne « Prix par seconde d'audio » ; un prix que vous aviez réglé
+par minute est converti tout seul. Les durées se lisent en secondes elles aussi, dans la
+colonne « Secondes d'audio ».
+
+## En cas de problème
+
+Chaque message dit ce qui se passe, pourquoi, et quoi faire. Son bouton vous mène directement
+au bon réglage ou fait la correction : quand un réglage règle le problème (aucun service
+choisi, clé à vérifier, réglage à corriger), le bouton s'appelle « Ouvrir les réglages ». Si une dictée n'a pas pu être transcrite, elle est
+gardée : cliquez sur « Réessayer » quand le problème est réglé, sans redicter.
+Si le problème continue, notez l'heure, cliquez sur « Copier le diagnostic » et envoyez-le-nous.
+
+## Changer un raccourci
+
+Dans Paramètres → Raccourcis, pour chaque geste, activez Ctrl, Alt, Maj ou Windows d'un clic,
+puis choisissez la touche dans la liste ; tapez une lettre ou un chiffre pour y aller
+directement. Sous chaque geste, soung indique si le raccourci est libre. Un raccourci doit
+contenir Ctrl, Alt ou Windows.
+
+## Retrouver la console
+
+Appuyez sur Ctrl + Alt + V, ou ouvrez soung depuis le menu Démarrer.
+Les réglages et les informations de l'auteur sont dans Paramètres.
+
+En haut de la console, le bouton « Menu » rassemble tout ce que soung propose : Mes carnets de
+notes, Paramètres, Bien démarrer, Chercher une mise à jour, et « Chercher les mises à jour au
+lancement de soung ». Sous le bouton de talk team, un bouton « Mes carnets de notes » ouvre
+vos notes, leur historique et leurs rapports.
+
+## Mettre soung à jour
+
+Quand une nouvelle version de soung est disponible, la console le dit sur une ligne, avec un
+bouton « Mettre à jour », et une notification s'affiche une fois près de l'horloge. Un clic
+sur le bouton ou sur la notification suffit : soung télécharge la nouvelle version, vérifie
+qu'elle vient bien de HasDigit, l'installe, puis se rouvre tout seul. Vos réglages et vos
+carnets sont gardés, ainsi que votre accord et le raccourci sur le bureau. Le lancement de
+soung avec Windows, qui fait partie des conditions d'utilisation, est remis en marche. Un fichier qui ne vient pas de
+HasDigit est refusé, et rien n'est installé.
+
+La mise à jour ferme soung un instant. Elle ne démarre donc jamais pendant talk team, une
+dictée ou une lecture : soung vous dit de terminer d'abord, et le bouton « Mettre à jour »
+reste là pour après.
+
+Pour chercher vous-même : « Menu », puis « Chercher une mise à jour ». soung répond « soung est
+à jour. » ou propose la nouvelle version. La recherche au lancement de soung est activée au
+départ ; « Chercher les mises à jour au lancement de soung », dans le même menu, l'active ou la
+coupe. Sans Internet, soung le dit, avec « Réessayer ».
+
+## Nous contacter
+
+Auteur : joel kemkeng
+Nom complet : kemkeng ngouza kedi joel
+Contact : kedikemkeng@hasdigit.com
+Site : https://www.hasdigit.com
+</script>
+<div class="written"></div>
+</section>
+
+<section class="part" id="installer" data-title="Installer soung">
+<script type="text/markdown">
+# Installer soung
+
+Propulsé par HasDigit. Ce guide correspond à soung 4.0.1. Pour se servir de soung une fois
+installé, lisez le guide d'utilisation (UTILISATION, ou LIRE-MOI à côté du programme
+d'installation).
+
+## Ce qu'il faut
+
+- Windows 10 (version 1809 ou suivante) ou Windows 11, en 64 bits.
+- Pour lire et dicter : rien d'autre. Le mode local est inclus et marche sans Internet ni compte.
+- Pour les modes en ligne : Internet et une clé du service (OpenAI ou Claude). Pour talk team :
+  Internet et une clé OpenAI.
+- Pour talk team : un casque avec micro est conseillé.
+
+## Installer ou mettre à jour
+
+1. Ouvrez soung-4.0.1-Setup.exe par un double-clic. Si soung est déjà ouvert, vous n'avez rien
+   à faire : le programme d'installation ferme tout seul le soung de votre compte, attend que
+   l'ancien programme soit libre, puis le remplace.
+2. Si Windows affiche « Windows a protégé votre ordinateur », cliquez sur « Informations
+   complémentaires », puis sur « Exécuter quand même ». Le programme d'installation n'est pas
+   encore signé, c'est pourquoi Windows prévient.
+3. Choisissez vos préférences. « Lancer soung quand je démarre Windows » est déjà coché, même
+   pour une mise à jour. Cette case fait partie des conditions d'utilisation : si vous la
+   décochez, « Suivant » attend. Windows garde son propre réglage : pour que soung ne se lance
+   plus avec Windows, ouvrez le Gestionnaire des tâches, onglet « Applications de démarrage »
+   (« Démarrage » sous Windows 10), et désactivez soung. Une page courte présente talk
+   team et l'historique que ses notes gardent. La case « J'ai compris et je suis
+   d'accord » est déjà cochée : lisez la page. Si vous la décochez, « Installer » attend et la
+   page vous dit de la cocher.
+4. Cliquez sur Installer. À la fin, cliquez sur Terminer, puis sur Commencer.
+5. Ouvrez soung : dans Paramètres → À propos, vous devez lire « Version 4.0.1 ».
+
+Si vous faites une mise à jour, vos réglages sont conservés.
+
+À partir de la version 4.0.1, vous n'avez plus besoin du programme d'installation pour les
+versions suivantes : quand une nouvelle version est disponible, la console de soung le dit avec
+un bouton « Mettre à jour », et un clic suffit. soung vérifie que la version vient bien de
+HasDigit avant de l'installer. Vous pouvez aussi chercher vous-même : « Menu », puis « Chercher
+une mise à jour ».
+
+## Après l'installation
+
+- Pour les modes en ligne et talk team, mettez votre clé une seule fois dans Paramètres →
+  Services en ligne : « Créer ma clé », collez-la, « Tester la clé », puis « Enregistrer ». Le
+  guide illustré GUIDE-EN-LIGNE.html, à côté du programme d'installation, montre chaque étape.
+- Pour talk team, ouvrez Paramètres → talk team : l'état de préparation dit si tout est prêt,
+  et chaque problème a son bouton.
+
+## Ce que soung garde sur votre ordinateur
+
+- Vos réglages, dans votre dossier Windows personnel.
+- Vos clés, dans le coffre protégé de Windows, jamais en clair.
+- Vos carnets de notes de talk team, dans `%LOCALAPPDATA%\soung\carnets`, chiffrés pour votre
+  session Windows. Aucun son n'est gardé.
+
+## Désinstaller
+
+Ouvrez Paramètres de Windows → Applications, choisissez soung, puis Désinstaller. soung propose
+d'effacer vos carnets de notes et de retirer son micro virtuel ; il ne le fait jamais sans vous.
+
+## Nous contacter
+
+Auteur : joel kemkeng
+Contact : kedikemkeng@hasdigit.com
+Site : https://www.hasdigit.com
+</script>
+<div class="written"></div>
+</section>
+
+<section class="part" id="possibilites" data-title="Avec ou sans Internet">
+<script type="text/markdown">
+# Ce que soung sait faire, avec ou sans Internet
+
+Propulsé par HasDigit. Ce tableau correspond à soung 4.0.1.
+
+Chaque fonction se règle séparément : la lecture dans Paramètres → Lecture, la dictée dans
+Paramètres → Dictée, les langues dans Paramètres → Langues, talk team et ses notes dans
+Paramètres → talk team. Les badges de la console indiquent
+toujours le mode choisi.
+
+## Lire un texte
+
+| Possibilité | Sans Internet (local) | En ligne |
+| --- | --- | --- |
+| Lire le texte sélectionné (Ctrl + Alt + R) | Oui, avec les voix de Windows | Oui, avec une voix naturelle |
+| Formules, symboles, unités, abréviations | Les plus courants (°C, %, €, ≥, x², etc.) | Tous, lus selon le contexte |
+| Choisir la voix, la vitesse, le volume | Oui | Oui |
+| Voix adaptée à la langue lue | Oui : une voix de Windows par langue, choisie automatiquement | Oui : la voix en ligne parle toutes les langues |
+| Choisir le haut-parleur | Oui | Oui |
+| Si un problème survient | Message clair et lien vers le réglage | La voix de Windows prend le relais, avec un message |
+
+## Lire en traduisant (Ctrl + Alt + T)
+
+| Possibilité | Sans Internet (local) | En ligne |
+| --- | --- | --- |
+| Anglais vers français | Oui, avec le paquet « Anglais vers français » | Oui |
+| Français vers anglais | Oui, avec le paquet « Français vers anglais » | Oui |
+| Autres langues | Pas encore | Oui : espagnol, portugais, allemand, italien, néerlandais, arabe, chinois, japonais, russe, turc |
+| Langue du texte reconnue toute seule | Oui | Oui |
+| Texte déjà dans votre langue | Lu tel quel, sans traduction | Lu tel quel, sans traduction |
+| Formules et symboles traduits | Les plus courants, dits en mots | Tous, selon le contexte |
+| « Lire l’original » | Oui | Oui |
+| Qualité | Correcte ; expressions imagées traduites mot à mot | Très bonne, naturelle |
+
+## Dicter
+
+| Possibilité | Sans Internet (local) | En ligne |
+| --- | --- | --- |
+| Dicter au curseur (Ctrl + Espace) | Oui | Oui |
+| Correction automatique (orthographe, hésitations, reprises) | Non | Oui, sans rien ajouter à vos propos |
+| Vocabulaire personnel et nom soung respectés | Oui | Oui |
+| Choisir le micro, voir le niveau de la voix | Oui | Oui |
+| Micro ou casque branché pendant que soung est ouvert : reconnu tout de suite, et retour au micro de Windows s'il est débranché | Oui | Oui |
+| Réessayer sans redicter après un problème | Oui | Oui |
+
+## Dicter en traduisant (Ctrl + Alt + D)
+
+| Possibilité | Sans Internet (local) | En ligne |
+| --- | --- | --- |
+| Parler français, écrire en anglais | Oui ; meilleur résultat avec le paquet « Français vers anglais », sinon écriture directe en anglais | Oui, corrigé et traduit |
+| Parler anglais, écrire en français | Oui, avec le paquet « Anglais vers français » | Oui, corrigé et traduit |
+| Autres langues | Pas encore | Oui, pour les mêmes langues que la lecture |
+| Sens de la traduction affiché avant de parler | Oui | Oui |
+| « Insérer sans traduire » si la traduction échoue | Oui | Oui |
+| Qualité | Correcte, sans correction préalable | Très bonne, corrigée |
+
+## talk team : votre voix traduite en direct (Ctrl + Alt + M)
+
+| Possibilité | Sans Internet (local) | En ligne |
+| --- | --- | --- |
+| Votre voix traduite vers n'importe quel programme qui utilise un micro (micro « Micro-Soung-Team ») | Non | Oui |
+| Le son de vos programmes traduit vers vous, la voix d'origine plus basse derrière | Non | Oui |
+| Sous-titres des deux sens dans le panneau de suivi | Non | Oui |
+| Couper mon micro, parler sans traduire (Ctrl + Alt + B), mettre l'écoute en pause, changer la langue des autres | Non | Oui |
+| Traduire ou non chaque sens (interrupteur « Traduire » sur chaque ligne du panneau) | Non | Oui ; un sens au moins reste traduit |
+| Aucune traduction renvoyée en boucle, même sans casque | Sans objet | Oui ; sans casque, une réponse dite juste après un écho peut perdre son début |
+| Si Internet ou le service s'arrête pendant talk team | Sans objet | On vous entend sans traduction en moins de 2 secondes, puis la traduction reprend seule |
+| Micro et volumes rendus comme avant à l'arrêt | Sans objet | Oui, même après un arrêt brutal |
+
+## Carnets de notes de talk team
+
+| Possibilité | Sans Internet (local) | En ligne |
+| --- | --- | --- |
+| Garder ce qui est dit, vos moments marqués (Ctrl + Alt + N) et vos remarques | Non : les notes se prennent pendant talk team, qui demande Internet | Oui |
+| Où sont vos notes | Sur cet ordinateur, chiffrées pour votre session Windows ; aucun son gardé | Pareil : les notes ne sont jamais rangées en ligne |
+| Rapport d'une note, d'une séance ou d'un carnet : décisions, actions, questions, avec les heures | Oui : « Faire le rapport » donne le rapport simple | Oui : « Améliorer le rapport » le fait réécrire par le service ; coût annoncé avant s'il dépasse 0,20 $ ; en cas d'échec, le rapport simple reste |
+| Résumé à part, dans son onglet (« Faire le résumé ») | Non | Oui |
+| Préparer un e-mail dans soung : message, document joint (Word ou PDF), « Valider et copier », « Archiver » | Oui, avec un message court écrit par soung | Oui |
+| Lire à voix haute le dialogue ou les points d'un rapport | Oui | Oui |
+| Traduire le rapport dans une autre langue | Non | Oui |
+| Chercher, relire, exporter (PDF, Word, page web, texte, Markdown), ranger, effacer avec « Annuler » | Oui | Oui |
+| Durée de conservation | Jusqu'à ce que vous effaciez, ou 7, 30, 90 ou 365 jours (Paramètres → talk team → Notes), appliqué au prochain lancement | Pareil |
+
+## Vie privée, coût et préparation
+
+| Point | Sans Internet (local) | En ligne |
+| --- | --- | --- |
+| Où vont vos textes et votre voix | Nulle part : tout reste sur l’ordinateur | Envoyés au service choisi (OpenAI ou Claude) |
+| Coût | Gratuit | Selon votre offre auprès du service |
+| Ce qu’il faut | Rien pour lire et dicter ; une fois, les paquets de langues pour traduire (environ 67 Mo chacun) | Une clé du service, vérifiée avec « Tester la clé » ; pour talk team, un casque est conseillé |
+| Suivi de la consommation | Sans objet | Menu Consommation : jetons entrants, sortants et en tout, coût estimé, par activité (talk team et carnets compris) et par service ; jetons estimés par soung quand le service ne les donne pas, et dit |
+
+## Retrouver ses outils et se mettre à jour
+
+| Possibilité | Sans Internet (local) | En ligne |
+| --- | --- | --- |
+| Bouton « Menu » de la console : Mes carnets de notes, Paramètres, Bien démarrer, mises à jour | Oui | Oui |
+| Bouton « Mes carnets de notes » dans la console | Oui | Oui |
+| Les quatre raccourcis les plus utiles rappelés sous le bouton de talk team | Oui | Oui |
+| Mise à jour d'un clic, vérifiée avant d'être installée | Non | Oui |
+| Recherche d'une mise à jour au lancement de soung (activée au départ) | Non | Oui |
+
+## Changer de langue
+
+Dans la console, la pastille « Langues » montre vos trois langues. Un clic permet de les changer
+ou d’inverser « Je parle » et « J’écris en » pour répondre dans l’autre sens.
+</script>
+<div class="written"></div>
+</section>
+
+<section class="part" id="services-en-ligne" data-title="Les services en ligne, en images">
+<!-- A part of the guide of soung (scripts/build_guide.py puts it in the page): the online
+     services, step by step, with pictures. Its pictures are made by scripts/capture_guide.py. -->
+<h1>Utiliser soung avec Internet</h1>
+<p class="lead">Le pas à pas en images, pour créer votre clé et passer la dictée et la lecture
+« avec Internet ». Comptez environ 15 minutes la première fois.</p>
+
+<h2 id="deux-facons">1. Les deux façons d’utiliser soung</h2>
+<p>soung lit vos textes à voix haute et écrit ce que vous dites. Il peut le faire de deux
+façons, que vous choisissez séparément pour la lecture et pour la dictée.</p>
+<table>
+  <tr><th></th><th>Sans Internet</th><th>Avec Internet</th></tr>
+  <tr><td><strong>Prix</strong></td><td>Gratuit</td>
+      <td>Payant, selon ce que vous utilisez (quelques centimes en général)</td></tr>
+  <tr><td><strong>Vos textes et votre voix</strong></td><td>Restent sur votre ordinateur</td>
+      <td>Passent par le service choisi (ici OpenAI)</td></tr>
+  <tr><td><strong>La voix qui lit</strong></td><td>Les voix de Windows</td>
+      <td>Une voix plus naturelle</td></tr>
+  <tr><td><strong>La dictée</strong></td><td>Écrit ce que vous dites</td>
+      <td>Écrit ce que vous dites et corrige les fautes, les « euh » et les répétitions</td></tr>
+  <tr><td><strong>Ce qu’il faut</strong></td><td>Rien</td><td>Une clé et du crédit (ce guide)</td></tr>
+</table>
+<div class="box info"><strong>Vous pouvez mélanger.</strong> Par exemple : la lecture sans
+Internet et la dictée avec Internet. Chaque choix se change en deux clics, à tout moment.</div>
+
+<h2 id="besoin">2. Ce qu’il vous faut</h2>
+<ul>
+  <li>Une adresse e-mail (ou un compte Google, Microsoft ou Apple).</li>
+  <li>Une carte bancaire, pour ajouter du crédit. Le minimum est de 5 dollars (environ 5 euros).</li>
+  <li>soung installé et ouvert.</li>
+</ul>
+<div class="box warn"><strong>Un abonnement ChatGPT ne suffit pas.</strong> Même si vous payez
+déjà ChatGPT, il faut une clé et du crédit sur le site d’OpenAI pour développeurs. Ce sont deux
+comptes de paiement différents chez OpenAI.</div>
+<div class="box tip"><strong>C’est quoi, une « clé » ?</strong> Un long code personnel, un peu
+comme un mot de passe. Il permet à soung d’utiliser votre compte OpenAI. Vous le créez une seule
+fois, vous le collez dans soung, et c’est fini. Ne le donnez à personne.</div>
+
+<h2 id="cle">3. Créer votre clé sur le site d’OpenAI</h2>
+
+<div class="step">
+  <h3><span class="num">1</span>Ouvrez les paramètres de soung</h3>
+  <p>Ouvrez la fenêtre de soung : appuyez sur <span class="btn">Ctrl + Alt + V</span>, ou cliquez
+  sur l’icône de soung près de l’horloge, en bas à droite de l’écran.</p>
+  <ul class="marks">
+    <li><span class="dot">3</span>Cliquez sur <span class="btn">Paramètres</span>, en bas à gauche.</li>
+  </ul>
+  <figure><img src="images/console-local.png" alt="La fenêtre de soung, le bouton Paramètres en bas à gauche">
+  <figcaption>La fenêtre de soung. Les repères 1 et 2 montrent le mode actuel de la lecture et de la dictée.</figcaption></figure>
+</div>
+
+<div class="step">
+  <h3><span class="num">2</span>Allez dans « Services en ligne » et cliquez sur « Créer ma clé »</h3>
+  <ul class="marks">
+    <li><span class="dot">1</span>Dans la colonne de gauche, cliquez sur le menu <span class="btn">Services en ligne</span>.</li>
+    <li><span class="dot">2</span>Dans la partie <strong>OpenAI</strong>, cliquez sur
+    <span class="btn">Créer ma clé ↗</span>. Votre navigateur Internet s’ouvre directement sur la
+    bonne page d’OpenAI.</li>
+  </ul>
+  <figure><img src="images/services-creer-cle.png" alt="Le menu Services en ligne, le bouton Créer ma clé">
+  <figcaption>Le menu « Services en ligne » : tout ce qui concerne les clés est ici.</figcaption></figure>
+</div>
+
+<div class="step">
+  <h3><span class="num">3</span>Connectez-vous sur le site d’OpenAI</h3>
+  <p>La page d’OpenAI est en anglais. Voici ce qu’il faut faire :</p>
+  <ul class="marks">
+    <li><span class="dot">1</span>Écrivez votre adresse e-mail dans la case <strong>Email
+    address</strong> (« adresse e-mail »).</li>
+    <li><span class="dot">2</span>Cliquez sur <span class="btn">Continue</span> (« Continuer »),
+    puis suivez les étapes : mot de passe si vous avez déjà un compte OpenAI ou ChatGPT, ou
+    création du compte si vous n’en avez pas.</li>
+    <li><span class="dot">3</span>Ou plus simple : cliquez sur
+    <span class="btn">Continue with Google</span> pour entrer avec votre compte Google.</li>
+  </ul>
+  <figure><img src="images/openai-connexion.png" alt="La page de connexion d'OpenAI">
+  <figcaption>La page de connexion d’OpenAI.</figcaption></figure>
+  <div class="box info"><strong>L’adresse de la page</strong>
+  <span class="site">platform.openai.com/api-keys</span> : c’est là que le bouton « Créer ma clé »
+  vous emmène.</div>
+</div>
+
+<div class="step">
+  <h3><span class="num">4</span>Créez la clé</h3>
+  <p>Une fois connecté, vous arrivez sur la page des clés (en anglais : « API keys »).</p>
+  <ul class="marks">
+    <li><span class="dot">1</span>Dans le menu à gauche, vous êtes sur <strong>API Keys</strong>
+    (« Clés »).</li>
+    <li><span class="dot">2</span>Cliquez en haut à droite sur
+    <span class="btn">+ Create new secret key</span> (« Créer une nouvelle clé secrète »).</li>
+  </ul>
+  <figure><img src="images/openai-page-cles.png" alt="La page des clés d'OpenAI">
+  <figcaption>La page des clés. Les clés déjà créées sont floutées dans ce guide.</figcaption></figure>
+  <p>Une petite fenêtre s’ouvre :</p>
+  <ul class="marks">
+    <li><span class="dot">1</span>Dans <strong>Name</strong> (« Nom »), écrivez <strong>soung</strong>,
+    pour vous souvenir à quoi sert cette clé.</li>
+    <li><span class="dot">2</span>Dans <strong>Expiration</strong> (« Durée de validité »), choisissez
+    une durée dans la liste. Quand la durée est passée, la clé ne marche plus : il suffit alors
+    d’en créer une nouvelle. Laissez les autres cases telles quelles.</li>
+    <li><span class="dot">3</span>Cliquez sur <span class="btn">Create secret key</span> (« Créer la
+    clé »). Ce bouton devient cliquable une fois la durée choisie.</li>
+  </ul>
+  <figure><img src="images/openai-creer-cle.png" alt="La fenêtre de création d'une clé chez OpenAI">
+  <figcaption>La fenêtre « Create new secret key ».</figcaption></figure>
+  <div class="box warn"><strong>Important : copiez la clé tout de suite.</strong> OpenAI ne la
+  montre qu’une seule fois. Si vous fermez la fenêtre sans la copier, ce n’est pas grave : il
+  suffit d’en créer une nouvelle.</div>
+  <ul class="marks">
+    <li><span class="dot">4</span>La clé s’affiche : cliquez sur <span class="btn">Copy</span>
+    (« Copier ») à côté d’elle. Elle commence par <strong>sk-</strong> et elle est très longue :
+    c’est normal. Puis fermez la petite fenêtre.</li>
+  </ul>
+</div>
+
+<h2 id="credit">4. Ajouter du crédit</h2>
+<div class="step">
+  <h3><span class="num">5</span>Mettez un peu d’argent sur votre compte OpenAI</h3>
+  <p>Le service en ligne se paie à l’avance, comme une carte prépayée. Sans crédit, la clé ne
+  marche pas. Dans soung, menu <span class="btn">Services en ligne</span>, cliquez sur
+  <span class="btn">Ajouter du crédit ↗</span> : la page de paiement d’OpenAI s’ouvre.</p>
+  <ul class="marks">
+    <li><span class="dot">1</span>Vous êtes dans <strong>Billing</strong> (« Paiement »).</li>
+    <li><span class="dot">2</span><strong>API credit balance</strong> : le crédit qu’il vous reste.
+    (Il est flouté dans ce guide.)</li>
+    <li><span class="dot">3</span><strong>Auto-reload</strong> : la recharge automatique. « OFF »
+    veut dire qu’elle est coupée : rien n’est prélevé sans vous. Quand le crédit arrive à zéro,
+    le mode en ligne s’arrête simplement, jusqu’à votre prochain achat.</li>
+    <li><span class="dot">4</span>Cliquez sur <span class="btn">Buy credits</span> (« Acheter du
+    crédit »), ajoutez votre carte bancaire si on vous la demande, choisissez un montant
+    (5 dollars suffisent pour commencer), puis validez.</li>
+  </ul>
+  <figure><img src="images/openai-credit.png" alt="La page de paiement d'OpenAI">
+  <figcaption>La page « Billing » d’OpenAI.</figcaption></figure>
+  <div class="box tip"><strong>Pas de mauvaise surprise.</strong> Au moment de payer, OpenAI peut
+  proposer d’activer la recharge automatique. Si vous ne voulez pas être prélevé
+  automatiquement, laissez-la coupée. Le crédit acheté reste valable un an.</div>
+</div>
+
+<h2 id="coller">5. Mettre la clé dans soung</h2>
+<div class="step">
+  <h3><span class="num">6</span>Collez la clé, testez-la, enregistrez</h3>
+  <p>Revenez dans soung, menu <span class="btn">Services en ligne</span>, partie
+  <strong>OpenAI</strong>.</p>
+  <ul class="marks">
+    <li><span class="dot">1</span>Cliquez dans la case « Collez votre clé ici », puis appuyez sur
+    <span class="btn">Ctrl + V</span> pour coller. Des points s’affichent à la place de la clé : c’est
+    voulu, pour la protéger. Cochez « Afficher » si vous voulez la voir.</li>
+    <li><span class="dot">2</span>Cliquez sur <span class="btn">Tester la clé</span>. C’est gratuit.</li>
+    <li><span class="dot">3</span>Cliquez sur <span class="btn">Enregistrer</span>, en bas de la fenêtre.</li>
+  </ul>
+  <figure><img src="images/services-coller-cle.png" alt="La clé collée, le bouton Tester la clé, le bouton Enregistrer">
+  <figcaption>La clé est collée : il reste à la tester, puis à enregistrer.</figcaption></figure>
+  <p>Quand la clé fonctionne, soung l’écrit en vert :</p>
+  <figure><img src="images/services-cle-verifiee.png" alt="Message vert : la clé fonctionne">
+  <figcaption>« La clé fonctionne : soung peut l’utiliser. »</figcaption></figure>
+  <div class="box info"><strong>Une seule clé suffit.</strong> La même clé OpenAI sert à la dictée,
+  à la correction et à la lecture. Vous ne la collez qu’une fois.</div>
+</div>
+
+<h2 id="activer">6. Passer la dictée et la lecture « avec Internet »</h2>
+<p>Avoir une clé ne change rien tout seul : choisissez maintenant quelles fonctions utilisent
+Internet.</p>
+
+<div class="step">
+  <h3><span class="num">7</span>La dictée avec Internet</h3>
+  <ul class="marks">
+    <li><span class="dot">1</span>Dans la colonne de gauche, cliquez sur le menu <span class="btn">Dictée</span>.</li>
+    <li><span class="dot">2</span>Dans « Mode de dictée », choisissez <strong>En ligne - OpenAI</strong>.</li>
+    <li><span class="dot">3</span>soung vous rappelle la clé utilisée. « ✓ enregistrée » : tout est
+    prêt. « à ajouter » : cliquez sur <span class="btn">Gérer mes clés</span> et reprenez l’étape 6.</li>
+    <li><span class="dot">4</span>« Service de correction » : laissez <strong>OpenAI</strong>.</li>
+    <li><span class="dot">5</span>Cliquez sur <span class="btn">Enregistrer</span>. soung vérifie que
+    tout marche avant d’enregistrer.</li>
+  </ul>
+  <figure><img src="images/dictee-en-ligne.png" alt="Le menu Dictée en mode en ligne">
+  <figcaption>La dictée avec Internet : vos phrases sont écrites et corrigées.</figcaption></figure>
+</div>
+
+<div class="step">
+  <h3><span class="num">8</span>La lecture avec Internet</h3>
+  <ul class="marks">
+    <li><span class="dot">1</span>Dans la colonne de gauche, cliquez sur le menu <span class="btn">Lecture</span>.</li>
+    <li><span class="dot">2</span>Choisissez <strong>Lecture en ligne : voix naturelle, texte préparé par IA</strong>.</li>
+    <li><span class="dot">3</span>« Voix » : laissez <strong>Voix en ligne OpenAI</strong>.</li>
+    <li><span class="dot">4</span>Vérifiez la ligne « Clé utilisée : OpenAI ✓ enregistrée ».</li>
+    <li><span class="dot">5</span>Cliquez sur <span class="btn">Enregistrer</span>.</li>
+  </ul>
+  <figure><img src="images/lecture-en-ligne.png" alt="Le menu Lecture en mode en ligne">
+  <figcaption>La lecture avec Internet : une voix naturelle, et les formules lues correctement.</figcaption></figure>
+</div>
+
+<div class="step">
+  <h3><span class="num">9</span>Vérifiez d’un coup d’œil</h3>
+  <p>Dans la fenêtre de soung, deux étiquettes indiquent toujours le mode choisi :</p>
+  <ul class="marks">
+    <li><span class="dot">1</span>la lecture : « Lecture en ligne » ;</li>
+    <li><span class="dot">2</span>la dictée : « Dictée en ligne ».</li>
+  </ul>
+  <p>Cliquer sur une étiquette ouvre directement le bon réglage.</p>
+  <figure><img src="images/console-en-ligne.png" alt="La fenêtre de soung avec les étiquettes en ligne">
+  <figcaption>En bleu : avec Internet. En vert : sans Internet.</figcaption></figure>
+</div>
+
+<h2 id="revenir">7. Revenir « sans Internet »</h2>
+<p>Pour un texte confidentiel, pour ne rien dépenser, ou quand Internet ne marche pas, repassez
+une fonction sans Internet. Votre clé reste enregistrée pour plus tard.</p>
+
+<div class="step">
+  <h3><span class="num">10</span>La dictée sans Internet</h3>
+  <ul class="marks">
+    <li><span class="dot">1</span>Dans la colonne de gauche, menu <span class="btn">Dictée</span>, « Mode de dictée » :
+    choisissez <strong>Local - soung (hors ligne)</strong>.</li>
+    <li><span class="dot">2</span>La toute première fois seulement, cliquez sur
+    <span class="btn">Préparer / vérifier le mode hors ligne</span>.</li>
+    <li><span class="dot">3</span>Cliquez sur <span class="btn">Enregistrer</span>.</li>
+  </ul>
+  <figure><img src="images/dictee-locale.png" alt="Le menu Dictée en mode sans Internet">
+  <figcaption>La dictée sans Internet : rien ne quitte votre ordinateur.</figcaption></figure>
+</div>
+
+<div class="step">
+  <h3><span class="num">11</span>La lecture sans Internet</h3>
+  <ul class="marks">
+    <li><span class="dot">1</span>Dans la colonne de gauche, menu <span class="btn">Lecture</span> : choisissez
+    <strong>Lecture locale : voix de Windows, sans Internet</strong>.</li>
+    <li><span class="dot">2</span>Cliquez sur <span class="btn">Enregistrer</span>.</li>
+  </ul>
+  <figure><img src="images/lecture-locale.png" alt="Le menu Lecture en mode sans Internet">
+  <figcaption>La lecture sans Internet, avec les voix de Windows.</figcaption></figure>
+  <p>Les étiquettes de la fenêtre de soung redeviennent vertes : « Lecture locale · hors ligne »
+  et « Dictée locale · hors ligne ».</p>
+</div>
+
+<h2 id="depenses">8. Suivre ce que vous dépensez</h2>
+<div class="step">
+  <h3><span class="num">12</span>Le menu Consommation</h3>
+  <ul class="marks">
+    <li><span class="dot">1</span>Dans la colonne de gauche, cliquez sur le menu <span class="btn">Consommation</span>.</li>
+    <li><span class="dot">2</span>Choisissez la période : aujourd’hui, 7 derniers jours, ce mois…</li>
+    <li><span class="dot">3</span>Lisez le total : les jetons utilisés et le coût estimé.</li>
+    <li><span class="dot">4</span>Le tableau « Par activité » dit ce que chaque fonction a
+    utilisé : dictée, lecture, talk team, rapports des carnets.</li>
+  </ul>
+  <p>soung affiche ce que vous avez utilisé et une estimation du prix. Le montant exact reste
+  celui affiché sur le site d’OpenAI.</p>
+  <figure><img src="images/consommation.png" alt="Le menu Consommation">
+  <figcaption>Une estimation de vos dépenses, par jour, par semaine ou par mois.</figcaption></figure>
+</div>
+
+<h2 id="questions">9. Si quelque chose ne marche pas</h2>
+<dl class="faq">
+  <dt>« La clé a été refusée »</dt>
+  <dd>La clé a été mal collée ou supprimée sur le site d’OpenAI. Créez-en une nouvelle (étape 4)
+  et collez-la (étape 6). Cochez « Afficher » pour vérifier qu’elle est complète.</dd>
+
+  <dt>« Crédit ou limite du service atteint »</dt>
+  <dd>Votre crédit OpenAI est épuisé. Ajoutez du crédit (étape 5). En attendant, passez la
+  fonction sans Internet (partie 7).</dd>
+
+  <dt>« Problème de connexion Internet »</dt>
+  <dd>Vérifiez votre connexion. Rien n’est perdu : pour une dictée, cliquez sur
+  <span class="btn">Réessayer</span> quand Internet revient, sans redicter.</dd>
+
+  <dt>J’ai perdu ma clé ou je l’ai fermée trop vite</dt>
+  <dd>Ce n’est pas grave : créez une nouvelle clé sur le site d’OpenAI et collez-la dans soung.</dd>
+
+  <dt>Ma clé est-elle en sécurité ?</dt>
+  <dd>Oui. soung la range dans le coffre protégé de Windows et ne l’affiche plus jamais. Ne la
+  donnez à personne et ne l’envoyez pas par e-mail.</dd>
+
+  <dt>Comment arrêter de payer ?</dt>
+  <dd>Repassez la lecture et la dictée sans Internet (partie 7). Sans utilisation, rien n’est
+  dépensé. Vous pouvez aussi supprimer la clé : cochez « Supprimer cette clé », puis
+  <span class="btn">Enregistrer</span>.</dd>
+</dl>
+</section>
+
+<footer>
+  soung 4.0.1 · Propulsé par HasDigit · Auteur : joel kemkeng · Contact :
+  kedikemkeng@hasdigit.com · <a href="https://www.hasdigit.com">www.hasdigit.com</a>
+</footer>
+</main>
+</div>
+<script>/**
+ * marked v12.0.2 - a markdown parser
+ * Copyright (c) 2011-2024, Christopher Jeffrey. (MIT Licensed)
+ * https://github.com/markedjs/marked
+ */
+!function(e,t){"object"==typeof exports&&"undefined"!=typeof module?t(exports):"function"==typeof define&&define.amd?define(["exports"],t):t((e="undefined"!=typeof globalThis?globalThis:e||self).marked={})}(this,(function(e){"use strict";function t(){return{async:!1,breaks:!1,extensions:null,gfm:!0,hooks:null,pedantic:!1,renderer:null,silent:!1,tokenizer:null,walkTokens:null}}function n(t){e.defaults=t}e.defaults={async:!1,breaks:!1,extensions:null,gfm:!0,hooks:null,pedantic:!1,renderer:null,silent:!1,tokenizer:null,walkTokens:null};const s=/[&<>"']/,r=new RegExp(s.source,"g"),i=/[<>"']|&(?!(#\d{1,7}|#[Xx][a-fA-F0-9]{1,6}|\w+);)/,l=new RegExp(i.source,"g"),o={"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"},a=e=>o[e];function c(e,t){if(t){if(s.test(e))return e.replace(r,a)}else if(i.test(e))return e.replace(l,a);return e}const h=/&(#(?:\d+)|(?:#x[0-9A-Fa-f]+)|(?:\w+));?/gi;function p(e){return e.replace(h,((e,t)=>"colon"===(t=t.toLowerCase())?":":"#"===t.charAt(0)?"x"===t.charAt(1)?String.fromCharCode(parseInt(t.substring(2),16)):String.fromCharCode(+t.substring(1)):""))}const u=/(^|[^\[])\^/g;function k(e,t){let n="string"==typeof e?e:e.source;t=t||"";const s={replace:(e,t)=>{let r="string"==typeof t?t:t.source;return r=r.replace(u,"$1"),n=n.replace(e,r),s},getRegex:()=>new RegExp(n,t)};return s}function g(e){try{e=encodeURI(e).replace(/%25/g,"%")}catch(e){return null}return e}const f={exec:()=>null};function d(e,t){const n=e.replace(/\|/g,((e,t,n)=>{let s=!1,r=t;for(;--r>=0&&"\\"===n[r];)s=!s;return s?"|":" |"})).split(/ \|/);let s=0;if(n[0].trim()||n.shift(),n.length>0&&!n[n.length-1].trim()&&n.pop(),t)if(n.length>t)n.splice(t);else for(;n.length<t;)n.push("");for(;s<n.length;s++)n[s]=n[s].trim().replace(/\\\|/g,"|");return n}function x(e,t,n){const s=e.length;if(0===s)return"";let r=0;for(;r<s;){const i=e.charAt(s-r-1);if(i!==t||n){if(i===t||!n)break;r++}else r++}return e.slice(0,s-r)}function b(e,t,n,s){const r=t.href,i=t.title?c(t.title):null,l=e[1].replace(/\\([\[\]])/g,"$1");if("!"!==e[0].charAt(0)){s.state.inLink=!0;const e={type:"link",raw:n,href:r,title:i,text:l,tokens:s.inlineTokens(l)};return s.state.inLink=!1,e}return{type:"image",raw:n,href:r,title:i,text:c(l)}}class w{options;rules;lexer;constructor(t){this.options=t||e.defaults}space(e){const t=this.rules.block.newline.exec(e);if(t&&t[0].length>0)return{type:"space",raw:t[0]}}code(e){const t=this.rules.block.code.exec(e);if(t){const e=t[0].replace(/^ {1,4}/gm,"");return{type:"code",raw:t[0],codeBlockStyle:"indented",text:this.options.pedantic?e:x(e,"\n")}}}fences(e){const t=this.rules.block.fences.exec(e);if(t){const e=t[0],n=function(e,t){const n=e.match(/^(\s+)(?:```)/);if(null===n)return t;const s=n[1];return t.split("\n").map((e=>{const t=e.match(/^\s+/);if(null===t)return e;const[n]=t;return n.length>=s.length?e.slice(s.length):e})).join("\n")}(e,t[3]||"");return{type:"code",raw:e,lang:t[2]?t[2].trim().replace(this.rules.inline.anyPunctuation,"$1"):t[2],text:n}}}heading(e){const t=this.rules.block.heading.exec(e);if(t){let e=t[2].trim();if(/#$/.test(e)){const t=x(e,"#");this.options.pedantic?e=t.trim():t&&!/ $/.test(t)||(e=t.trim())}return{type:"heading",raw:t[0],depth:t[1].length,text:e,tokens:this.lexer.inline(e)}}}hr(e){const t=this.rules.block.hr.exec(e);if(t)return{type:"hr",raw:t[0]}}blockquote(e){const t=this.rules.block.blockquote.exec(e);if(t){let e=t[0].replace(/\n {0,3}((?:=+|-+) *)(?=\n|$)/g,"\n    $1");e=x(e.replace(/^ *>[ \t]?/gm,""),"\n");const n=this.lexer.state.top;this.lexer.state.top=!0;const s=this.lexer.blockTokens(e);return this.lexer.state.top=n,{type:"blockquote",raw:t[0],tokens:s,text:e}}}list(e){let t=this.rules.block.list.exec(e);if(t){let n=t[1].trim();const s=n.length>1,r={type:"list",raw:"",ordered:s,start:s?+n.slice(0,-1):"",loose:!1,items:[]};n=s?`\\d{1,9}\\${n.slice(-1)}`:`\\${n}`,this.options.pedantic&&(n=s?n:"[*+-]");const i=new RegExp(`^( {0,3}${n})((?:[\t ][^\\n]*)?(?:\\n|$))`);let l="",o="",a=!1;for(;e;){let n=!1;if(!(t=i.exec(e)))break;if(this.rules.block.hr.test(e))break;l=t[0],e=e.substring(l.length);let s=t[2].split("\n",1)[0].replace(/^\t+/,(e=>" ".repeat(3*e.length))),c=e.split("\n",1)[0],h=0;this.options.pedantic?(h=2,o=s.trimStart()):(h=t[2].search(/[^ ]/),h=h>4?1:h,o=s.slice(h),h+=t[1].length);let p=!1;if(!s&&/^ *$/.test(c)&&(l+=c+"\n",e=e.substring(c.length+1),n=!0),!n){const t=new RegExp(`^ {0,${Math.min(3,h-1)}}(?:[*+-]|\\d{1,9}[.)])((?:[ \t][^\\n]*)?(?:\\n|$))`),n=new RegExp(`^ {0,${Math.min(3,h-1)}}((?:- *){3,}|(?:_ *){3,}|(?:\\* *){3,})(?:\\n+|$)`),r=new RegExp(`^ {0,${Math.min(3,h-1)}}(?:\`\`\`|~~~)`),i=new RegExp(`^ {0,${Math.min(3,h-1)}}#`);for(;e;){const a=e.split("\n",1)[0];if(c=a,this.options.pedantic&&(c=c.replace(/^ {1,4}(?=( {4})*[^ ])/g,"  ")),r.test(c))break;if(i.test(c))break;if(t.test(c))break;if(n.test(e))break;if(c.search(/[^ ]/)>=h||!c.trim())o+="\n"+c.slice(h);else{if(p)break;if(s.search(/[^ ]/)>=4)break;if(r.test(s))break;if(i.test(s))break;if(n.test(s))break;o+="\n"+c}p||c.trim()||(p=!0),l+=a+"\n",e=e.substring(a.length+1),s=c.slice(h)}}r.loose||(a?r.loose=!0:/\n *\n *$/.test(l)&&(a=!0));let u,k=null;this.options.gfm&&(k=/^\[[ xX]\] /.exec(o),k&&(u="[ ] "!==k[0],o=o.replace(/^\[[ xX]\] +/,""))),r.items.push({type:"list_item",raw:l,task:!!k,checked:u,loose:!1,text:o,tokens:[]}),r.raw+=l}r.items[r.items.length-1].raw=l.trimEnd(),r.items[r.items.length-1].text=o.trimEnd(),r.raw=r.raw.trimEnd();for(let e=0;e<r.items.length;e++)if(this.lexer.state.top=!1,r.items[e].tokens=this.lexer.blockTokens(r.items[e].text,[]),!r.loose){const t=r.items[e].tokens.filter((e=>"space"===e.type)),n=t.length>0&&t.some((e=>/\n.*\n/.test(e.raw)));r.loose=n}if(r.loose)for(let e=0;e<r.items.length;e++)r.items[e].loose=!0;return r}}html(e){const t=this.rules.block.html.exec(e);if(t){return{type:"html",block:!0,raw:t[0],pre:"pre"===t[1]||"script"===t[1]||"style"===t[1],text:t[0]}}}def(e){const t=this.rules.block.def.exec(e);if(t){const e=t[1].toLowerCase().replace(/\s+/g," "),n=t[2]?t[2].replace(/^<(.*)>$/,"$1").replace(this.rules.inline.anyPunctuation,"$1"):"",s=t[3]?t[3].substring(1,t[3].length-1).replace(this.rules.inline.anyPunctuation,"$1"):t[3];return{type:"def",tag:e,raw:t[0],href:n,title:s}}}table(e){const t=this.rules.block.table.exec(e);if(!t)return;if(!/[:|]/.test(t[2]))return;const n=d(t[1]),s=t[2].replace(/^\||\| *$/g,"").split("|"),r=t[3]&&t[3].trim()?t[3].replace(/\n[ \t]*$/,"").split("\n"):[],i={type:"table",raw:t[0],header:[],align:[],rows:[]};if(n.length===s.length){for(const e of s)/^ *-+: *$/.test(e)?i.align.push("right"):/^ *:-+: *$/.test(e)?i.align.push("center"):/^ *:-+ *$/.test(e)?i.align.push("left"):i.align.push(null);for(const e of n)i.header.push({text:e,tokens:this.lexer.inline(e)});for(const e of r)i.rows.push(d(e,i.header.length).map((e=>({text:e,tokens:this.lexer.inline(e)}))));return i}}lheading(e){const t=this.rules.block.lheading.exec(e);if(t)return{type:"heading",raw:t[0],depth:"="===t[2].charAt(0)?1:2,text:t[1],tokens:this.lexer.inline(t[1])}}paragraph(e){const t=this.rules.block.paragraph.exec(e);if(t){const e="\n"===t[1].charAt(t[1].length-1)?t[1].slice(0,-1):t[1];return{type:"paragraph",raw:t[0],text:e,tokens:this.lexer.inline(e)}}}text(e){const t=this.rules.block.text.exec(e);if(t)return{type:"text",raw:t[0],text:t[0],tokens:this.lexer.inline(t[0])}}escape(e){const t=this.rules.inline.escape.exec(e);if(t)return{type:"escape",raw:t[0],text:c(t[1])}}tag(e){const t=this.rules.inline.tag.exec(e);if(t)return!this.lexer.state.inLink&&/^<a /i.test(t[0])?this.lexer.state.inLink=!0:this.lexer.state.inLink&&/^<\/a>/i.test(t[0])&&(this.lexer.state.inLink=!1),!this.lexer.state.inRawBlock&&/^<(pre|code|kbd|script)(\s|>)/i.test(t[0])?this.lexer.state.inRawBlock=!0:this.lexer.state.inRawBlock&&/^<\/(pre|code|kbd|script)(\s|>)/i.test(t[0])&&(this.lexer.state.inRawBlock=!1),{type:"html",raw:t[0],inLink:this.lexer.state.inLink,inRawBlock:this.lexer.state.inRawBlock,block:!1,text:t[0]}}link(e){const t=this.rules.inline.link.exec(e);if(t){const e=t[2].trim();if(!this.options.pedantic&&/^</.test(e)){if(!/>$/.test(e))return;const t=x(e.slice(0,-1),"\\");if((e.length-t.length)%2==0)return}else{const e=function(e,t){if(-1===e.indexOf(t[1]))return-1;let n=0;for(let s=0;s<e.length;s++)if("\\"===e[s])s++;else if(e[s]===t[0])n++;else if(e[s]===t[1]&&(n--,n<0))return s;return-1}(t[2],"()");if(e>-1){const n=(0===t[0].indexOf("!")?5:4)+t[1].length+e;t[2]=t[2].substring(0,e),t[0]=t[0].substring(0,n).trim(),t[3]=""}}let n=t[2],s="";if(this.options.pedantic){const e=/^([^'"]*[^\s])\s+(['"])(.*)\2/.exec(n);e&&(n=e[1],s=e[3])}else s=t[3]?t[3].slice(1,-1):"";return n=n.trim(),/^</.test(n)&&(n=this.options.pedantic&&!/>$/.test(e)?n.slice(1):n.slice(1,-1)),b(t,{href:n?n.replace(this.rules.inline.anyPunctuation,"$1"):n,title:s?s.replace(this.rules.inline.anyPunctuation,"$1"):s},t[0],this.lexer)}}reflink(e,t){let n;if((n=this.rules.inline.reflink.exec(e))||(n=this.rules.inline.nolink.exec(e))){const e=t[(n[2]||n[1]).replace(/\s+/g," ").toLowerCase()];if(!e){const e=n[0].charAt(0);return{type:"text",raw:e,text:e}}return b(n,e,n[0],this.lexer)}}emStrong(e,t,n=""){let s=this.rules.inline.emStrongLDelim.exec(e);if(!s)return;if(s[3]&&n.match(/[\p{L}\p{N}]/u))return;if(!(s[1]||s[2]||"")||!n||this.rules.inline.punctuation.exec(n)){const n=[...s[0]].length-1;let r,i,l=n,o=0;const a="*"===s[0][0]?this.rules.inline.emStrongRDelimAst:this.rules.inline.emStrongRDelimUnd;for(a.lastIndex=0,t=t.slice(-1*e.length+n);null!=(s=a.exec(t));){if(r=s[1]||s[2]||s[3]||s[4]||s[5]||s[6],!r)continue;if(i=[...r].length,s[3]||s[4]){l+=i;continue}if((s[5]||s[6])&&n%3&&!((n+i)%3)){o+=i;continue}if(l-=i,l>0)continue;i=Math.min(i,i+l+o);const t=[...s[0]][0].length,a=e.slice(0,n+s.index+t+i);if(Math.min(n,i)%2){const e=a.slice(1,-1);return{type:"em",raw:a,text:e,tokens:this.lexer.inlineTokens(e)}}const c=a.slice(2,-2);return{type:"strong",raw:a,text:c,tokens:this.lexer.inlineTokens(c)}}}}codespan(e){const t=this.rules.inline.code.exec(e);if(t){let e=t[2].replace(/\n/g," ");const n=/[^ ]/.test(e),s=/^ /.test(e)&&/ $/.test(e);return n&&s&&(e=e.substring(1,e.length-1)),e=c(e,!0),{type:"codespan",raw:t[0],text:e}}}br(e){const t=this.rules.inline.br.exec(e);if(t)return{type:"br",raw:t[0]}}del(e){const t=this.rules.inline.del.exec(e);if(t)return{type:"del",raw:t[0],text:t[2],tokens:this.lexer.inlineTokens(t[2])}}autolink(e){const t=this.rules.inline.autolink.exec(e);if(t){let e,n;return"@"===t[2]?(e=c(t[1]),n="mailto:"+e):(e=c(t[1]),n=e),{type:"link",raw:t[0],text:e,href:n,tokens:[{type:"text",raw:e,text:e}]}}}url(e){let t;if(t=this.rules.inline.url.exec(e)){let e,n;if("@"===t[2])e=c(t[0]),n="mailto:"+e;else{let s;do{s=t[0],t[0]=this.rules.inline._backpedal.exec(t[0])?.[0]??""}while(s!==t[0]);e=c(t[0]),n="www."===t[1]?"http://"+t[0]:t[0]}return{type:"link",raw:t[0],text:e,href:n,tokens:[{type:"text",raw:e,text:e}]}}}inlineText(e){const t=this.rules.inline.text.exec(e);if(t){let e;return e=this.lexer.state.inRawBlock?t[0]:c(t[0]),{type:"text",raw:t[0],text:e}}}}const m=/^ {0,3}((?:-[\t ]*){3,}|(?:_[ \t]*){3,}|(?:\*[ \t]*){3,})(?:\n+|$)/,y=/(?:[*+-]|\d{1,9}[.)])/,$=k(/^(?!bull |blockCode|fences|blockquote|heading|html)((?:.|\n(?!\s*?\n|bull |blockCode|fences|blockquote|heading|html))+?)\n {0,3}(=+|-+) *(?:\n+|$)/).replace(/bull/g,y).replace(/blockCode/g,/ {4}/).replace(/fences/g,/ {0,3}(?:`{3,}|~{3,})/).replace(/blockquote/g,/ {0,3}>/).replace(/heading/g,/ {0,3}#{1,6}/).replace(/html/g,/ {0,3}<[^\n>]+>\n/).getRegex(),z=/^([^\n]+(?:\n(?!hr|heading|lheading|blockquote|fences|list|html|table| +\n)[^\n]+)*)/,T=/(?!\s*\])(?:\\.|[^\[\]\\])+/,R=k(/^ {0,3}\[(label)\]: *(?:\n *)?([^<\s][^\s]*|<.*?>)(?:(?: +(?:\n *)?| *\n *)(title))? *(?:\n+|$)/).replace("label",T).replace("title",/(?:"(?:\\"?|[^"\\])*"|'[^'\n]*(?:\n[^'\n]+)*\n?'|\([^()]*\))/).getRegex(),_=k(/^( {0,3}bull)([ \t][^\n]+?)?(?:\n|$)/).replace(/bull/g,y).getRegex(),A="address|article|aside|base|basefont|blockquote|body|caption|center|col|colgroup|dd|details|dialog|dir|div|dl|dt|fieldset|figcaption|figure|footer|form|frame|frameset|h[1-6]|head|header|hr|html|iframe|legend|li|link|main|menu|menuitem|meta|nav|noframes|ol|optgroup|option|p|param|search|section|summary|table|tbody|td|tfoot|th|thead|title|tr|track|ul",S=/<!--(?:-?>|[\s\S]*?(?:-->|$))/,I=k("^ {0,3}(?:<(script|pre|style|textarea)[\\s>][\\s\\S]*?(?:</\\1>[^\\n]*\\n+|$)|comment[^\\n]*(\\n+|$)|<\\?[\\s\\S]*?(?:\\?>\\n*|$)|<![A-Z][\\s\\S]*?(?:>\\n*|$)|<!\\[CDATA\\[[\\s\\S]*?(?:\\]\\]>\\n*|$)|</?(tag)(?: +|\\n|/?>)[\\s\\S]*?(?:(?:\\n *)+\\n|$)|<(?!script|pre|style|textarea)([a-z][\\w-]*)(?:attribute)*? */?>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n *)+\\n|$)|</(?!script|pre|style|textarea)[a-z][\\w-]*\\s*>(?=[ \\t]*(?:\\n|$))[\\s\\S]*?(?:(?:\\n *)+\\n|$))","i").replace("comment",S).replace("tag",A).replace("attribute",/ +[a-zA-Z:_][\w.:-]*(?: *= *"[^"\n]*"| *= *'[^'\n]*'| *= *[^\s"'=<>`]+)?/).getRegex(),E=k(z).replace("hr",m).replace("heading"," {0,3}#{1,6}(?:\\s|$)").replace("|lheading","").replace("|table","").replace("blockquote"," {0,3}>").replace("fences"," {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list"," {0,3}(?:[*+-]|1[.)]) ").replace("html","</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag",A).getRegex(),q={blockquote:k(/^( {0,3}> ?(paragraph|[^\n]*)(?:\n|$))+/).replace("paragraph",E).getRegex(),code:/^( {4}[^\n]+(?:\n(?: *(?:\n|$))*)?)+/,def:R,fences:/^ {0,3}(`{3,}(?=[^`\n]*(?:\n|$))|~{3,})([^\n]*)(?:\n|$)(?:|([\s\S]*?)(?:\n|$))(?: {0,3}\1[~`]* *(?=\n|$)|$)/,heading:/^ {0,3}(#{1,6})(?=\s|$)(.*)(?:\n+|$)/,hr:m,html:I,lheading:$,list:_,newline:/^(?: *(?:\n|$))+/,paragraph:E,table:f,text:/^[^\n]+/},Z=k("^ *([^\\n ].*)\\n {0,3}((?:\\| *)?:?-+:? *(?:\\| *:?-+:? *)*(?:\\| *)?)(?:\\n((?:(?! *\\n|hr|heading|blockquote|code|fences|list|html).*(?:\\n|$))*)\\n*|$)").replace("hr",m).replace("heading"," {0,3}#{1,6}(?:\\s|$)").replace("blockquote"," {0,3}>").replace("code"," {4}[^\\n]").replace("fences"," {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list"," {0,3}(?:[*+-]|1[.)]) ").replace("html","</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag",A).getRegex(),L={...q,table:Z,paragraph:k(z).replace("hr",m).replace("heading"," {0,3}#{1,6}(?:\\s|$)").replace("|lheading","").replace("table",Z).replace("blockquote"," {0,3}>").replace("fences"," {0,3}(?:`{3,}(?=[^`\\n]*\\n)|~{3,})[^\\n]*\\n").replace("list"," {0,3}(?:[*+-]|1[.)]) ").replace("html","</?(?:tag)(?: +|\\n|/?>)|<(?:script|pre|style|textarea|!--)").replace("tag",A).getRegex()},P={...q,html:k("^ *(?:comment *(?:\\n|\\s*$)|<(tag)[\\s\\S]+?</\\1> *(?:\\n{2,}|\\s*$)|<tag(?:\"[^\"]*\"|'[^']*'|\\s[^'\"/>\\s]*)*?/?> *(?:\\n{2,}|\\s*$))").replace("comment",S).replace(/tag/g,"(?!(?:a|em|strong|small|s|cite|q|dfn|abbr|data|time|code|var|samp|kbd|sub|sup|i|b|u|mark|ruby|rt|rp|bdi|bdo|span|br|wbr|ins|del|img)\\b)\\w+(?!:|[^\\w\\s@]*@)\\b").getRegex(),def:/^ *\[([^\]]+)\]: *<?([^\s>]+)>?(?: +(["(][^\n]+[")]))? *(?:\n+|$)/,heading:/^(#{1,6})(.*)(?:\n+|$)/,fences:f,lheading:/^(.+?)\n {0,3}(=+|-+) *(?:\n+|$)/,paragraph:k(z).replace("hr",m).replace("heading"," *#{1,6} *[^\n]").replace("lheading",$).replace("|table","").replace("blockquote"," {0,3}>").replace("|fences","").replace("|list","").replace("|html","").replace("|tag","").getRegex()},Q=/^\\([!"#$%&'()*+,\-./:;<=>?@\[\]\\^_`{|}~])/,v=/^( {2,}|\\)\n(?!\s*$)/,B="\\p{P}\\p{S}",C=k(/^((?![*_])[\spunctuation])/,"u").replace(/punctuation/g,B).getRegex(),M=k(/^(?:\*+(?:((?!\*)[punct])|[^\s*]))|^_+(?:((?!_)[punct])|([^\s_]))/,"u").replace(/punct/g,B).getRegex(),O=k("^[^_*]*?__[^_*]*?\\*[^_*]*?(?=__)|[^*]+(?=[^*])|(?!\\*)[punct](\\*+)(?=[\\s]|$)|[^punct\\s](\\*+)(?!\\*)(?=[punct\\s]|$)|(?!\\*)[punct\\s](\\*+)(?=[^punct\\s])|[\\s](\\*+)(?!\\*)(?=[punct])|(?!\\*)[punct](\\*+)(?!\\*)(?=[punct])|[^punct\\s](\\*+)(?=[^punct\\s])","gu").replace(/punct/g,B).getRegex(),D=k("^[^_*]*?\\*\\*[^_*]*?_[^_*]*?(?=\\*\\*)|[^_]+(?=[^_])|(?!_)[punct](_+)(?=[\\s]|$)|[^punct\\s](_+)(?!_)(?=[punct\\s]|$)|(?!_)[punct\\s](_+)(?=[^punct\\s])|[\\s](_+)(?!_)(?=[punct])|(?!_)[punct](_+)(?!_)(?=[punct])","gu").replace(/punct/g,B).getRegex(),j=k(/\\([punct])/,"gu").replace(/punct/g,B).getRegex(),H=k(/^<(scheme:[^\s\x00-\x1f<>]*|email)>/).replace("scheme",/[a-zA-Z][a-zA-Z0-9+.-]{1,31}/).replace("email",/[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+(@)[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)+(?![-_])/).getRegex(),U=k(S).replace("(?:--\x3e|$)","--\x3e").getRegex(),X=k("^comment|^</[a-zA-Z][\\w:-]*\\s*>|^<[a-zA-Z][\\w-]*(?:attribute)*?\\s*/?>|^<\\?[\\s\\S]*?\\?>|^<![a-zA-Z]+\\s[\\s\\S]*?>|^<!\\[CDATA\\[[\\s\\S]*?\\]\\]>").replace("comment",U).replace("attribute",/\s+[a-zA-Z:_][\w.:-]*(?:\s*=\s*"[^"]*"|\s*=\s*'[^']*'|\s*=\s*[^\s"'=<>`]+)?/).getRegex(),F=/(?:\[(?:\\.|[^\[\]\\])*\]|\\.|`[^`]*`|[^\[\]\\`])*?/,N=k(/^!?\[(label)\]\(\s*(href)(?:\s+(title))?\s*\)/).replace("label",F).replace("href",/<(?:\\.|[^\n<>\\])+>|[^\s\x00-\x1f]*/).replace("title",/"(?:\\"?|[^"\\])*"|'(?:\\'?|[^'\\])*'|\((?:\\\)?|[^)\\])*\)/).getRegex(),G=k(/^!?\[(label)\]\[(ref)\]/).replace("label",F).replace("ref",T).getRegex(),J=k(/^!?\[(ref)\](?:\[\])?/).replace("ref",T).getRegex(),K={_backpedal:f,anyPunctuation:j,autolink:H,blockSkip:/\[[^[\]]*?\]\([^\(\)]*?\)|`[^`]*?`|<[^<>]*?>/g,br:v,code:/^(`+)([^`]|[^`][\s\S]*?[^`])\1(?!`)/,del:f,emStrongLDelim:M,emStrongRDelimAst:O,emStrongRDelimUnd:D,escape:Q,link:N,nolink:J,punctuation:C,reflink:G,reflinkSearch:k("reflink|nolink(?!\\()","g").replace("reflink",G).replace("nolink",J).getRegex(),tag:X,text:/^(`+|[^`])(?:(?= {2,}\n)|[\s\S]*?(?:(?=[\\<!\[`*_]|\b_|$)|[^ ](?= {2,}\n)))/,url:f},V={...K,link:k(/^!?\[(label)\]\((.*?)\)/).replace("label",F).getRegex(),reflink:k(/^!?\[(label)\]\s*\[([^\]]*)\]/).replace("label",F).getRegex()},W={...K,escape:k(Q).replace("])","~|])").getRegex(),url:k(/^((?:ftp|https?):\/\/|www\.)(?:[a-zA-Z0-9\-]+\.?)+[^\s<]*|^email/,"i").replace("email",/[A-Za-z0-9._+-]+(@)[a-zA-Z0-9-_]+(?:\.[a-zA-Z0-9-_]*[a-zA-Z0-9])+(?![-_])/).getRegex(),_backpedal:/(?:[^?!.,:;*_'"~()&]+|\([^)]*\)|&(?![a-zA-Z0-9]+;$)|[?!.,:;*_'"~)]+(?!$))+/,del:/^(~~?)(?=[^\s~])([\s\S]*?[^\s~])\1(?=[^~]|$)/,text:/^([`~]+|[^`~])(?:(?= {2,}\n)|(?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)|[\s\S]*?(?:(?=[\\<!\[`*~_]|\b_|https?:\/\/|ftp:\/\/|www\.|$)|[^ ](?= {2,}\n)|[^a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-](?=[a-zA-Z0-9.!#$%&'*+\/=?_`{\|}~-]+@)))/},Y={...W,br:k(v).replace("{2,}","*").getRegex(),text:k(W.text).replace("\\b_","\\b_| {2,}\\n").replace(/\{2,\}/g,"*").getRegex()},ee={normal:q,gfm:L,pedantic:P},te={normal:K,gfm:W,breaks:Y,pedantic:V};class ne{tokens;options;state;tokenizer;inlineQueue;constructor(t){this.tokens=[],this.tokens.links=Object.create(null),this.options=t||e.defaults,this.options.tokenizer=this.options.tokenizer||new w,this.tokenizer=this.options.tokenizer,this.tokenizer.options=this.options,this.tokenizer.lexer=this,this.inlineQueue=[],this.state={inLink:!1,inRawBlock:!1,top:!0};const n={block:ee.normal,inline:te.normal};this.options.pedantic?(n.block=ee.pedantic,n.inline=te.pedantic):this.options.gfm&&(n.block=ee.gfm,this.options.breaks?n.inline=te.breaks:n.inline=te.gfm),this.tokenizer.rules=n}static get rules(){return{block:ee,inline:te}}static lex(e,t){return new ne(t).lex(e)}static lexInline(e,t){return new ne(t).inlineTokens(e)}lex(e){e=e.replace(/\r\n|\r/g,"\n"),this.blockTokens(e,this.tokens);for(let e=0;e<this.inlineQueue.length;e++){const t=this.inlineQueue[e];this.inlineTokens(t.src,t.tokens)}return this.inlineQueue=[],this.tokens}blockTokens(e,t=[]){let n,s,r,i;for(e=this.options.pedantic?e.replace(/\t/g,"    ").replace(/^ +$/gm,""):e.replace(/^( *)(\t+)/gm,((e,t,n)=>t+"    ".repeat(n.length)));e;)if(!(this.options.extensions&&this.options.extensions.block&&this.options.extensions.block.some((s=>!!(n=s.call({lexer:this},e,t))&&(e=e.substring(n.raw.length),t.push(n),!0)))))if(n=this.tokenizer.space(e))e=e.substring(n.raw.length),1===n.raw.length&&t.length>0?t[t.length-1].raw+="\n":t.push(n);else if(n=this.tokenizer.code(e))e=e.substring(n.raw.length),s=t[t.length-1],!s||"paragraph"!==s.type&&"text"!==s.type?t.push(n):(s.raw+="\n"+n.raw,s.text+="\n"+n.text,this.inlineQueue[this.inlineQueue.length-1].src=s.text);else if(n=this.tokenizer.fences(e))e=e.substring(n.raw.length),t.push(n);else if(n=this.tokenizer.heading(e))e=e.substring(n.raw.length),t.push(n);else if(n=this.tokenizer.hr(e))e=e.substring(n.raw.length),t.push(n);else if(n=this.tokenizer.blockquote(e))e=e.substring(n.raw.length),t.push(n);else if(n=this.tokenizer.list(e))e=e.substring(n.raw.length),t.push(n);else if(n=this.tokenizer.html(e))e=e.substring(n.raw.length),t.push(n);else if(n=this.tokenizer.def(e))e=e.substring(n.raw.length),s=t[t.length-1],!s||"paragraph"!==s.type&&"text"!==s.type?this.tokens.links[n.tag]||(this.tokens.links[n.tag]={href:n.href,title:n.title}):(s.raw+="\n"+n.raw,s.text+="\n"+n.raw,this.inlineQueue[this.inlineQueue.length-1].src=s.text);else if(n=this.tokenizer.table(e))e=e.substring(n.raw.length),t.push(n);else if(n=this.tokenizer.lheading(e))e=e.substring(n.raw.length),t.push(n);else{if(r=e,this.options.extensions&&this.options.extensions.startBlock){let t=1/0;const n=e.slice(1);let s;this.options.extensions.startBlock.forEach((e=>{s=e.call({lexer:this},n),"number"==typeof s&&s>=0&&(t=Math.min(t,s))})),t<1/0&&t>=0&&(r=e.substring(0,t+1))}if(this.state.top&&(n=this.tokenizer.paragraph(r)))s=t[t.length-1],i&&"paragraph"===s.type?(s.raw+="\n"+n.raw,s.text+="\n"+n.text,this.inlineQueue.pop(),this.inlineQueue[this.inlineQueue.length-1].src=s.text):t.push(n),i=r.length!==e.length,e=e.substring(n.raw.length);else if(n=this.tokenizer.text(e))e=e.substring(n.raw.length),s=t[t.length-1],s&&"text"===s.type?(s.raw+="\n"+n.raw,s.text+="\n"+n.text,this.inlineQueue.pop(),this.inlineQueue[this.inlineQueue.length-1].src=s.text):t.push(n);else if(e){const t="Infinite loop on byte: "+e.charCodeAt(0);if(this.options.silent){console.error(t);break}throw new Error(t)}}return this.state.top=!0,t}inline(e,t=[]){return this.inlineQueue.push({src:e,tokens:t}),t}inlineTokens(e,t=[]){let n,s,r,i,l,o,a=e;if(this.tokens.links){const e=Object.keys(this.tokens.links);if(e.length>0)for(;null!=(i=this.tokenizer.rules.inline.reflinkSearch.exec(a));)e.includes(i[0].slice(i[0].lastIndexOf("[")+1,-1))&&(a=a.slice(0,i.index)+"["+"a".repeat(i[0].length-2)+"]"+a.slice(this.tokenizer.rules.inline.reflinkSearch.lastIndex))}for(;null!=(i=this.tokenizer.rules.inline.blockSkip.exec(a));)a=a.slice(0,i.index)+"["+"a".repeat(i[0].length-2)+"]"+a.slice(this.tokenizer.rules.inline.blockSkip.lastIndex);for(;null!=(i=this.tokenizer.rules.inline.anyPunctuation.exec(a));)a=a.slice(0,i.index)+"++"+a.slice(this.tokenizer.rules.inline.anyPunctuation.lastIndex);for(;e;)if(l||(o=""),l=!1,!(this.options.extensions&&this.options.extensions.inline&&this.options.extensions.inline.some((s=>!!(n=s.call({lexer:this},e,t))&&(e=e.substring(n.raw.length),t.push(n),!0)))))if(n=this.tokenizer.escape(e))e=e.substring(n.raw.length),t.push(n);else if(n=this.tokenizer.tag(e))e=e.substring(n.raw.length),s=t[t.length-1],s&&"text"===n.type&&"text"===s.type?(s.raw+=n.raw,s.text+=n.text):t.push(n);else if(n=this.tokenizer.link(e))e=e.substring(n.raw.length),t.push(n);else if(n=this.tokenizer.reflink(e,this.tokens.links))e=e.substring(n.raw.length),s=t[t.length-1],s&&"text"===n.type&&"text"===s.type?(s.raw+=n.raw,s.text+=n.text):t.push(n);else if(n=this.tokenizer.emStrong(e,a,o))e=e.substring(n.raw.length),t.push(n);else if(n=this.tokenizer.codespan(e))e=e.substring(n.raw.length),t.push(n);else if(n=this.tokenizer.br(e))e=e.substring(n.raw.length),t.push(n);else if(n=this.tokenizer.del(e))e=e.substring(n.raw.length),t.push(n);else if(n=this.tokenizer.autolink(e))e=e.substring(n.raw.length),t.push(n);else if(this.state.inLink||!(n=this.tokenizer.url(e))){if(r=e,this.options.extensions&&this.options.extensions.startInline){let t=1/0;const n=e.slice(1);let s;this.options.extensions.startInline.forEach((e=>{s=e.call({lexer:this},n),"number"==typeof s&&s>=0&&(t=Math.min(t,s))})),t<1/0&&t>=0&&(r=e.substring(0,t+1))}if(n=this.tokenizer.inlineText(r))e=e.substring(n.raw.length),"_"!==n.raw.slice(-1)&&(o=n.raw.slice(-1)),l=!0,s=t[t.length-1],s&&"text"===s.type?(s.raw+=n.raw,s.text+=n.text):t.push(n);else if(e){const t="Infinite loop on byte: "+e.charCodeAt(0);if(this.options.silent){console.error(t);break}throw new Error(t)}}else e=e.substring(n.raw.length),t.push(n);return t}}class se{options;constructor(t){this.options=t||e.defaults}code(e,t,n){const s=(t||"").match(/^\S*/)?.[0];return e=e.replace(/\n$/,"")+"\n",s?'<pre><code class="language-'+c(s)+'">'+(n?e:c(e,!0))+"</code></pre>\n":"<pre><code>"+(n?e:c(e,!0))+"</code></pre>\n"}blockquote(e){return`<blockquote>\n${e}</blockquote>\n`}html(e,t){return e}heading(e,t,n){return`<h${t}>${e}</h${t}>\n`}hr(){return"<hr>\n"}list(e,t,n){const s=t?"ol":"ul";return"<"+s+(t&&1!==n?' start="'+n+'"':"")+">\n"+e+"</"+s+">\n"}listitem(e,t,n){return`<li>${e}</li>\n`}checkbox(e){return"<input "+(e?'checked="" ':"")+'disabled="" type="checkbox">'}paragraph(e){return`<p>${e}</p>\n`}table(e,t){return t&&(t=`<tbody>${t}</tbody>`),"<table>\n<thead>\n"+e+"</thead>\n"+t+"</table>\n"}tablerow(e){return`<tr>\n${e}</tr>\n`}tablecell(e,t){const n=t.header?"th":"td";return(t.align?`<${n} align="${t.align}">`:`<${n}>`)+e+`</${n}>\n`}strong(e){return`<strong>${e}</strong>`}em(e){return`<em>${e}</em>`}codespan(e){return`<code>${e}</code>`}br(){return"<br>"}del(e){return`<del>${e}</del>`}link(e,t,n){const s=g(e);if(null===s)return n;let r='<a href="'+(e=s)+'"';return t&&(r+=' title="'+t+'"'),r+=">"+n+"</a>",r}image(e,t,n){const s=g(e);if(null===s)return n;let r=`<img src="${e=s}" alt="${n}"`;return t&&(r+=` title="${t}"`),r+=">",r}text(e){return e}}class re{strong(e){return e}em(e){return e}codespan(e){return e}del(e){return e}html(e){return e}text(e){return e}link(e,t,n){return""+n}image(e,t,n){return""+n}br(){return""}}class ie{options;renderer;textRenderer;constructor(t){this.options=t||e.defaults,this.options.renderer=this.options.renderer||new se,this.renderer=this.options.renderer,this.renderer.options=this.options,this.textRenderer=new re}static parse(e,t){return new ie(t).parse(e)}static parseInline(e,t){return new ie(t).parseInline(e)}parse(e,t=!0){let n="";for(let s=0;s<e.length;s++){const r=e[s];if(this.options.extensions&&this.options.extensions.renderers&&this.options.extensions.renderers[r.type]){const e=r,t=this.options.extensions.renderers[e.type].call({parser:this},e);if(!1!==t||!["space","hr","heading","code","table","blockquote","list","html","paragraph","text"].includes(e.type)){n+=t||"";continue}}switch(r.type){case"space":continue;case"hr":n+=this.renderer.hr();continue;case"heading":{const e=r;n+=this.renderer.heading(this.parseInline(e.tokens),e.depth,p(this.parseInline(e.tokens,this.textRenderer)));continue}case"code":{const e=r;n+=this.renderer.code(e.text,e.lang,!!e.escaped);continue}case"table":{const e=r;let t="",s="";for(let t=0;t<e.header.length;t++)s+=this.renderer.tablecell(this.parseInline(e.header[t].tokens),{header:!0,align:e.align[t]});t+=this.renderer.tablerow(s);let i="";for(let t=0;t<e.rows.length;t++){const n=e.rows[t];s="";for(let t=0;t<n.length;t++)s+=this.renderer.tablecell(this.parseInline(n[t].tokens),{header:!1,align:e.align[t]});i+=this.renderer.tablerow(s)}n+=this.renderer.table(t,i);continue}case"blockquote":{const e=r,t=this.parse(e.tokens);n+=this.renderer.blockquote(t);continue}case"list":{const e=r,t=e.ordered,s=e.start,i=e.loose;let l="";for(let t=0;t<e.items.length;t++){const n=e.items[t],s=n.checked,r=n.task;let o="";if(n.task){const e=this.renderer.checkbox(!!s);i?n.tokens.length>0&&"paragraph"===n.tokens[0].type?(n.tokens[0].text=e+" "+n.tokens[0].text,n.tokens[0].tokens&&n.tokens[0].tokens.length>0&&"text"===n.tokens[0].tokens[0].type&&(n.tokens[0].tokens[0].text=e+" "+n.tokens[0].tokens[0].text)):n.tokens.unshift({type:"text",text:e+" "}):o+=e+" "}o+=this.parse(n.tokens,i),l+=this.renderer.listitem(o,r,!!s)}n+=this.renderer.list(l,t,s);continue}case"html":{const e=r;n+=this.renderer.html(e.text,e.block);continue}case"paragraph":{const e=r;n+=this.renderer.paragraph(this.parseInline(e.tokens));continue}case"text":{let i=r,l=i.tokens?this.parseInline(i.tokens):i.text;for(;s+1<e.length&&"text"===e[s+1].type;)i=e[++s],l+="\n"+(i.tokens?this.parseInline(i.tokens):i.text);n+=t?this.renderer.paragraph(l):l;continue}default:{const e='Token with "'+r.type+'" type was not found.';if(this.options.silent)return console.error(e),"";throw new Error(e)}}}return n}parseInline(e,t){t=t||this.renderer;let n="";for(let s=0;s<e.length;s++){const r=e[s];if(this.options.extensions&&this.options.extensions.renderers&&this.options.extensions.renderers[r.type]){const e=this.options.extensions.renderers[r.type].call({parser:this},r);if(!1!==e||!["escape","html","link","image","strong","em","codespan","br","del","text"].includes(r.type)){n+=e||"";continue}}switch(r.type){case"escape":{const e=r;n+=t.text(e.text);break}case"html":{const e=r;n+=t.html(e.text);break}case"link":{const e=r;n+=t.link(e.href,e.title,this.parseInline(e.tokens,t));break}case"image":{const e=r;n+=t.image(e.href,e.title,e.text);break}case"strong":{const e=r;n+=t.strong(this.parseInline(e.tokens,t));break}case"em":{const e=r;n+=t.em(this.parseInline(e.tokens,t));break}case"codespan":{const e=r;n+=t.codespan(e.text);break}case"br":n+=t.br();break;case"del":{const e=r;n+=t.del(this.parseInline(e.tokens,t));break}case"text":{const e=r;n+=t.text(e.text);break}default:{const e='Token with "'+r.type+'" type was not found.';if(this.options.silent)return console.error(e),"";throw new Error(e)}}}return n}}class le{options;constructor(t){this.options=t||e.defaults}static passThroughHooks=new Set(["preprocess","postprocess","processAllTokens"]);preprocess(e){return e}postprocess(e){return e}processAllTokens(e){return e}}class oe{defaults={async:!1,breaks:!1,extensions:null,gfm:!0,hooks:null,pedantic:!1,renderer:null,silent:!1,tokenizer:null,walkTokens:null};options=this.setOptions;parse=this.#e(ne.lex,ie.parse);parseInline=this.#e(ne.lexInline,ie.parseInline);Parser=ie;Renderer=se;TextRenderer=re;Lexer=ne;Tokenizer=w;Hooks=le;constructor(...e){this.use(...e)}walkTokens(e,t){let n=[];for(const s of e)switch(n=n.concat(t.call(this,s)),s.type){case"table":{const e=s;for(const s of e.header)n=n.concat(this.walkTokens(s.tokens,t));for(const s of e.rows)for(const e of s)n=n.concat(this.walkTokens(e.tokens,t));break}case"list":{const e=s;n=n.concat(this.walkTokens(e.items,t));break}default:{const e=s;this.defaults.extensions?.childTokens?.[e.type]?this.defaults.extensions.childTokens[e.type].forEach((s=>{const r=e[s].flat(1/0);n=n.concat(this.walkTokens(r,t))})):e.tokens&&(n=n.concat(this.walkTokens(e.tokens,t)))}}return n}use(...e){const t=this.defaults.extensions||{renderers:{},childTokens:{}};return e.forEach((e=>{const n={...e};if(n.async=this.defaults.async||n.async||!1,e.extensions&&(e.extensions.forEach((e=>{if(!e.name)throw new Error("extension name required");if("renderer"in e){const n=t.renderers[e.name];t.renderers[e.name]=n?function(...t){let s=e.renderer.apply(this,t);return!1===s&&(s=n.apply(this,t)),s}:e.renderer}if("tokenizer"in e){if(!e.level||"block"!==e.level&&"inline"!==e.level)throw new Error("extension level must be 'block' or 'inline'");const n=t[e.level];n?n.unshift(e.tokenizer):t[e.level]=[e.tokenizer],e.start&&("block"===e.level?t.startBlock?t.startBlock.push(e.start):t.startBlock=[e.start]:"inline"===e.level&&(t.startInline?t.startInline.push(e.start):t.startInline=[e.start]))}"childTokens"in e&&e.childTokens&&(t.childTokens[e.name]=e.childTokens)})),n.extensions=t),e.renderer){const t=this.defaults.renderer||new se(this.defaults);for(const n in e.renderer){if(!(n in t))throw new Error(`renderer '${n}' does not exist`);if("options"===n)continue;const s=n,r=e.renderer[s],i=t[s];t[s]=(...e)=>{let n=r.apply(t,e);return!1===n&&(n=i.apply(t,e)),n||""}}n.renderer=t}if(e.tokenizer){const t=this.defaults.tokenizer||new w(this.defaults);for(const n in e.tokenizer){if(!(n in t))throw new Error(`tokenizer '${n}' does not exist`);if(["options","rules","lexer"].includes(n))continue;const s=n,r=e.tokenizer[s],i=t[s];t[s]=(...e)=>{let n=r.apply(t,e);return!1===n&&(n=i.apply(t,e)),n}}n.tokenizer=t}if(e.hooks){const t=this.defaults.hooks||new le;for(const n in e.hooks){if(!(n in t))throw new Error(`hook '${n}' does not exist`);if("options"===n)continue;const s=n,r=e.hooks[s],i=t[s];le.passThroughHooks.has(n)?t[s]=e=>{if(this.defaults.async)return Promise.resolve(r.call(t,e)).then((e=>i.call(t,e)));const n=r.call(t,e);return i.call(t,n)}:t[s]=(...e)=>{let n=r.apply(t,e);return!1===n&&(n=i.apply(t,e)),n}}n.hooks=t}if(e.walkTokens){const t=this.defaults.walkTokens,s=e.walkTokens;n.walkTokens=function(e){let n=[];return n.push(s.call(this,e)),t&&(n=n.concat(t.call(this,e))),n}}this.defaults={...this.defaults,...n}})),this}setOptions(e){return this.defaults={...this.defaults,...e},this}lexer(e,t){return ne.lex(e,t??this.defaults)}parser(e,t){return ie.parse(e,t??this.defaults)}#e(e,t){return(n,s)=>{const r={...s},i={...this.defaults,...r};!0===this.defaults.async&&!1===r.async&&(i.silent||console.warn("marked(): The async option was set to true by an extension. The async: false option sent to parse will be ignored."),i.async=!0);const l=this.#t(!!i.silent,!!i.async);if(null==n)return l(new Error("marked(): input parameter is undefined or null"));if("string"!=typeof n)return l(new Error("marked(): input parameter is of type "+Object.prototype.toString.call(n)+", string expected"));if(i.hooks&&(i.hooks.options=i),i.async)return Promise.resolve(i.hooks?i.hooks.preprocess(n):n).then((t=>e(t,i))).then((e=>i.hooks?i.hooks.processAllTokens(e):e)).then((e=>i.walkTokens?Promise.all(this.walkTokens(e,i.walkTokens)).then((()=>e)):e)).then((e=>t(e,i))).then((e=>i.hooks?i.hooks.postprocess(e):e)).catch(l);try{i.hooks&&(n=i.hooks.preprocess(n));let s=e(n,i);i.hooks&&(s=i.hooks.processAllTokens(s)),i.walkTokens&&this.walkTokens(s,i.walkTokens);let r=t(s,i);return i.hooks&&(r=i.hooks.postprocess(r)),r}catch(e){return l(e)}}}#t(e,t){return n=>{if(n.message+="\nPlease report this to https://github.com/markedjs/marked.",e){const e="<p>An error occurred:</p><pre>"+c(n.message+"",!0)+"</pre>";return t?Promise.resolve(e):e}if(t)return Promise.reject(n);throw n}}}const ae=new oe;function ce(e,t){return ae.parse(e,t)}ce.options=ce.setOptions=function(e){return ae.setOptions(e),ce.defaults=ae.defaults,n(ce.defaults),ce},ce.getDefaults=t,ce.defaults=e.defaults,ce.use=function(...e){return ae.use(...e),ce.defaults=ae.defaults,n(ce.defaults),ce},ce.walkTokens=function(e,t){return ae.walkTokens(e,t)},ce.parseInline=ae.parseInline,ce.Parser=ie,ce.parser=ie.parse,ce.Renderer=se,ce.TextRenderer=re,ce.Lexer=ne,ce.lexer=ne.lex,ce.Tokenizer=w,ce.Hooks=le,ce.parse=ce;const he=ce.options,pe=ce.setOptions,ue=ce.use,ke=ce.walkTokens,ge=ce.parseInline,fe=ce,de=ie.parse,xe=ne.lex;e.Hooks=le,e.Lexer=ne,e.Marked=oe,e.Parser=ie,e.Renderer=se,e.TextRenderer=re,e.Tokenizer=w,e.getDefaults=t,e.lexer=xe,e.marked=ce,e.options=he,e.parse=fe,e.parseInline=ge,e.parser=de,e.setOptions=pe,e.use=ue,e.walkTokens=ke}));
+</script>
+<script>
+  // The guides are written once, in Markdown: they are turned into the page here.
+  document.querySelectorAll("section.part").forEach(part => {
+    const source = part.querySelector('script[type="text/markdown"]');
+    if (source) part.querySelector(".written").innerHTML = marked.parse(source.textContent);
+  });
+  // A picture alone on its line is shown with its words under it.
+  document.querySelectorAll("section.part .written p > img:only-child").forEach(image => {
+    const paragraph = image.parentElement;
+    if (paragraph.textContent.trim()) return;
+    const figure = document.createElement("figure");
+    const words = document.createElement("figcaption");
+    words.textContent = image.alt;
+    figure.append(image, words);
+    paragraph.replaceWith(figure);
+  });
+  // Every chapter gets an address of its own, and its line in the summary.
+  const taken = new Set([...document.querySelectorAll("[id]")].map(element => element.id));
+  function address(prefix, words) {
+    const plain = words.normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    let name = prefix + "-" + (plain || "partie"), number = 2;
+    while (taken.has(name)) name = prefix + "-" + plain + "-" + number++;
+    taken.add(name);
+    return name;
+  }
+  const summary = document.getElementById("sommaire");
+  const places = [];  // every link of the summary with what it leads to, in the order of the page
+  function line(list, target, words, kind) {
+    const item = document.createElement("li");
+    const link = document.createElement("a");
+    link.href = "#" + target.id;
+    link.textContent = words;
+    if (kind) link.className = kind;
+    item.append(link);
+    list.append(item);
+    places.push({ link, target, item });
+    return item;
+  }
+  document.querySelectorAll("section.part").forEach(part => {
+    const item = line(summary, part, part.dataset.title, "part-link");
+    const chapters = document.createElement("ol");
+    chapters.className = "chapters";
+    item.append(chapters);
+    part.querySelectorAll("h2").forEach(chapter => {
+      if (!chapter.id) chapter.id = address(part.id, chapter.textContent);
+      line(chapters, chapter, chapter.textContent, "");
+    });
+    part.querySelectorAll("h3").forEach(title => {
+      if (!title.id) title.id = address(part.id, title.textContent);
+    });
+  });
+  // The part being read is open in the summary and its chapter is highlighted.
+  function highlight() {
+    let current = places[0];
+    places.forEach(place => {
+      if (place.target.getBoundingClientRect().top < 140) current = place;
+    });
+    const open = current.item.closest("#sommaire > li");
+    places.forEach(place => place.link.classList.toggle("current", place === current));
+    [...summary.children].forEach(item => item.classList.toggle("open", item === open));
+  }
+  document.addEventListener("scroll", highlight, { passive: true });
+  highlight();
+  // The page was written after it opened: an address with a chapter is followed now.
+  if (location.hash.length > 1) {
+    const asked = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+    if (asked) asked.scrollIntoView();
+  }
+</script>
+</body>
+</html>
